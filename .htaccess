@@ -1,0 +1,353 @@
+<IfModule mod_rewrite.c>
+RewriteEngine on
+
+RewriteRule ^index\.html$ index.php [L]
+RewriteRule ^out\.html$ logout.php [L] 
+RewriteRule ^home\.html$ media.php?module=home&id=$1 [L]
+RewriteRule ^dashboard\.html$ media.php?module=dashboard&id=$1 [L]
+RewriteRule ^dashboard-(.*)\.html$ media.php?module=dashboard&act=$1
+RewriteRule ^view-so\.html$ modul/dashboard/view_so.php [L]
+RewriteRule ^detail-dashboard-(.*)\.html$  modul/dashboard/view_so.php?id=$1 
+RewriteRule ^detail-dashboard2-(.*)\.html$  modul/dashboard/view_keuangan.php?id=$1 
+RewriteRule ^summary\.html$ media.php?module=summary&id=$1 [L]
+RewriteRule ^summary-(.*)\.html$ media.php?module=summary&act=$1
+
+RewriteRule ^users\.html$ media.php?module=users&id=$1 [L]
+RewriteRule ^tambahdata-users\.html$ media.php?module=users&act=tambahdata&id=$1 [L]
+RewriteRule ^editdata-users-(.*)\.html$ media.php?module=users&act=editdata&username=$1
+RewriteRule ^editpass-users-(.*)\.html$ media.php?module=users&act=editpass&username=$1
+RewriteRule ^aksi-tambahdata-users\.html$ modul/users/aksi_users.php?module=users&act=input&username=$1 [L]
+RewriteRule ^aksi-editdata-users\.html$ modul/users/aksi_users.php?module=users&act=update&username=$1 [L]
+RewriteRule ^aksi-editpass-users\.html$ modul/users/aksi_users.php?module=users&act=update_pass&username=$1 [L]
+
+RewriteRule ^layout\.html$ media.php?module=layout&id=$1 [L]
+RewriteRule ^tambahdata-layout\.html$ media.php?module=layout&act=tambahdata&id=$1 [L]
+RewriteRule ^editdata-layout-(.*)\.html$ media.php?module=layout&act=editdata&id=$1
+RewriteRule ^editpass-layout-(.*)\.html$ media.php?module=layout&act=editpass&id=$1
+RewriteRule ^aksi-tambahdata-layout\.html$ modul/layout/aksi_layout.php?module=layout&act=input&username=$1 [L]
+RewriteRule ^aksi-editdata-layout\.html$ modul/layout/aksi_layout.php?module=layout&act=update&id=$1 [L]
+RewriteRule ^aksi-editpass-layout\.html$ modul/layout/aksi_layout.php?module=layout&act=update_pass&id=$1 [L]
+RewriteRule ^aktif-layout-(.*)\.html$ modul/layout/aksi_layout.php?module=layout&act=aktif&id=$1 [L]
+RewriteRule ^nonaktif-layout-(.*)\.html$ modul/layout/aksi_layout.php?module=layout&act=nonaktif&id=$1 [L]
+
+RewriteRule ^log-user\.html$ media.php?module=log_user&id=$1 [L]
+RewriteRule ^aktif-log-user-(.*)\.html$ modul/log_user/aksi_log_user.php?module=log_user&act=aktif&id=$1 [L]
+RewriteRule ^kill-log-user-(.*)\.html$ modul/log_user/aksi_log_user.php?module=log_user&act=kill&username=$1 [L]
+
+RewriteRule ^tipe\.html$ media.php?module=tipe&id=$1 [L]
+RewriteRule ^tambah-tipe\.html$ media.php?module=tipe&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-tipe\.html$ modul/tipe/aksi_tipe.php?module=tipe&act=input&username=$1 [L]
+RewriteRule ^edit-tipe-(.*)\.html$ media.php?module=tipe&act=edit&fnId=$1
+RewriteRule ^aksi-edit-tipe\.html$ modul/tipe/aksi_tipe.php?module=tipe&act=update&fnId=$1 [L]
+RewriteRule ^aksi-delete-tipe-(.*)\.html$ modul/tipe/aksi_tipe.php?module=tipe&act=delete&fnId=$1 [L]
+
+RewriteRule ^jenis\.html$ media.php?module=jenis&id=$1 [L]
+RewriteRule ^tambah-jenis\.html$ media.php?module=jenis&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-jenis\.html$ modul/jenis/aksi_jenis.php?module=jenis&act=input&username=$1 [L]
+RewriteRule ^edit-jenis-(.*)\.html$ media.php?module=jenis&act=edit&fnId=$1
+RewriteRule ^aksi-edit-jenis\.html$ modul/jenis/aksi_jenis.php?module=jenis&act=update&fnId=$1 [L]
+RewriteRule ^aksi-delete-jenis-(.*)\.html$ modul/jenis/aksi_jenis.php?module=jenis&act=delete&fnId=$1 [L]
+RewriteRule ^print-jenis\.html$ modul/jenis/tampil.php [L]
+
+RewriteRule ^wilayah\.html$ media.php?module=wilayah&id=$1 [L]
+RewriteRule ^tambah-wilayah\.html$ media.php?module=wilayah&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-wilayah\.html$ modul/wilayah/aksi_wilayah.php?module=wilayah&act=input&username=$1 [L]
+RewriteRule ^edit-wilayah-(.*)\.html$ media.php?module=wilayah&act=edit&fnId=$1
+RewriteRule ^aksi-edit-wilayah\.html$ modul/wilayah/aksi_wilayah.php?module=wilayah&act=update&fnId=$1 [L]
+RewriteRule ^aksi-delete-wilayah-(.*)\.html$ modul/wilayah/aksi_wilayah.php?module=wilayah&act=delete&fnId=$1 [L]
+RewriteRule ^print-wilayah\.html$ modul/wilayah/tampil.php [L]
+
+RewriteRule ^kelompok\.html$ media.php?module=kelompok&id=$1 [L]
+RewriteRule ^tambah-kelompok\.html$ media.php?module=kelompok&act=tambah&id=$1 [L]
+RewriteRule ^print-kelompok\.html$ media.php?module=kelompok&act=print&id=$1 [L]
+RewriteRule ^aksi-tambah-kelompok\.html$ modul/kelompok/aksi_kelompok.php?module=kelompok&act=input&username=$1 [L]
+RewriteRule ^edit-kelompok-(.*)\.html$ media.php?module=kelompok&act=edit&fnId=$1
+RewriteRule ^aksi-edit-kelompok\.html$ modul/kelompok/aksi_kelompok.php?module=kelompok&act=update&fnId=$1 [L]
+RewriteRule ^aksi-delete-kelompok-(.*)\.html$ modul/kelompok/aksi_kelompok.php?module=kelompok&act=delete&fnId=$1 [L]
+RewriteRule ^print-kelompok\.html$ modul/kelompok/tampil.php [L]
+
+RewriteRule ^kantor-bayar\.html$ media.php?module=kantor_bayar&id=$1 [L]
+RewriteRule ^tambah-kantor-bayar\.html$ media.php?module=kantor_bayar&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-kantor-bayar\.html$ modul/kantor_bayar/aksi_kantor_bayar.php?module=kantor_bayar&act=input&username=$1 [L]
+RewriteRule ^edit-kantor-bayar-(.*)\.html$ media.php?module=kantor_bayar&act=edit&fnId=$1
+RewriteRule ^aksi-edit-kantor-bayar\.html$ modul/kantor_bayar/aksi_kantor_bayar.php?module=kantor_bayar&act=update&fnId=$1 [L]
+RewriteRule ^aksi-delete-kantor-bayar-(.*)\.html$ modul/kantor_bayar/aksi_kantor_bayar.php?module=kantor_bayar&act=delete&fnId=$1 [L]
+RewriteRule ^print-kantor-bayar\.html$ modul/kantor_bayar/tampil.php [L]
+
+
+RewriteRule ^perusahaan\.html$ media.php?module=perusahaan&id=$1 [L]
+RewriteRule ^tambah-perusahaan\.html$ media.php?module=perusahaan&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-perusahaan\.html$ modul/kantor_bayar/aksi_kantor_bayar.php?module=perusahaan&act=input&username=$1 [L]
+RewriteRule ^edit-perusahaan-(.*)\.html$ media.php?module=perusahaan&act=edit&fnId=$1
+RewriteRule ^aksi-edit-perusahaan\.html$ modul/kantor_bayar/aksi_kantor_bayar.php?module=perusahaan&act=update&fnId=$1 [L]
+RewriteRule ^aksi-delete-perusahaan-(.*)\.html$ modul/kantor_bayar/aksi_kantor_bayar.php?module=perusahaan&act=delete&fnId=$1 [L]
+RewriteRule ^print-perusahaan\.html$ modul/kantor_bayar/tampil.php [L]
+
+RewriteRule ^nasabah-pensiun\.html$ media.php?module=nasabah_pensiun&id=$1 [L]
+RewriteRule ^tambah-nasabah-pensiun\.html$ media.php?module=nasabah_pensiun&act=tambah&tipe=PENSIUN&tipe2=pensiun&id=$1 [L]
+RewriteRule ^aksi-tambah-nasabah-pensiun\.html$ modul/nasabah/aksi_nasabah.php?module=nasabah_pensiun&act=input&tipe2=pensiun&username=$1 [L]
+RewriteRule ^edit-nasabah-pensiun-(.*)\.html$ media.php?module=nasabah_pensiun&act=edit&tipe=PENSIUN&tipe2=pensiun&fnId=$1
+RewriteRule ^aksi-edit-nasabah-pensiun\.html$ modul/nasabah/aksi_nasabah.php?module=nasabah_pensiun&act=update&tipe2=pensiun&fnId=$1 [L]
+RewriteRule ^aksi-delete-nasabah-pensiun-(.*)\.html$ modul/nasabah/aksi_nasabah.php?module=nasabah_pensiun&act=delete&tipe2=pensiun&fnId=$1 [L]
+RewriteRule ^print-nasabah-pensiun\.html$ modul/nasabah/tampil.php?act=PENSIUN [L]
+
+RewriteRule ^nasabah-umum\.html$ media.php?module=nasabah_umum&id=$1 [L]
+RewriteRule ^tambah-nasabah-umum\.html$ media.php?module=nasabah_umum&act=tambah&tipe=UMUM&tipe2=umum&id=$1 [L]
+RewriteRule ^aksi-tambah-nasabah-umum\.html$ modul/nasabah/aksi_nasabah.php?module=nasabah_umum&act=input&tipe2=umum&username=$1 [L]
+RewriteRule ^edit-nasabah-umum-(.*)\.html$ media.php?module=nasabah_umum&act=edit&tipe=UMUM&tipe2=umum&fnId=$1
+RewriteRule ^aksi-edit-nasabah-umum\.html$ modul/nasabah/aksi_nasabah.php?module=nasabah_umum&act=update&tipe2=umum&fnId=$1 [L]
+RewriteRule ^aksi-delete-nasabah-umum-(.*)\.html$ modul/nasabah/aksi_nasabah.php?module=nasabah_umum&act=delete&tipe2=umum&fnId=$1 [L]
+RewriteRule ^print-nasabah-umum\.html$ modul/nasabah/tampil.php?act=UMUM [L]
+
+RewriteRule ^nasabah-mikro\.html$ media.php?module=nasabah_mikro&id=$1 [L]
+RewriteRule ^tambah-nasabah-mikro\.html$ media.php?module=nasabah_mikro&act=tambah&tipe=MIKRO&tipe2=mikro&id=$1 [L]
+RewriteRule ^aksi-tambah-nasabah-mikro\.html$ modul/nasabah/aksi_nasabah.php?module=nasabah_mikro&act=input&tipe2=mikro&username=$1 [L]
+RewriteRule ^edit-nasabah-mikro-(.*)\.html$ media.php?module=nasabah_mikro&act=edit&tipe=MIKRO&tipe2=mikro&fnId=$1
+RewriteRule ^aksi-edit-nasabah-mikro\.html$ modul/nasabah/aksi_nasabah.php?module=nasabah_mikro&act=update&tipe2=mikro&fnId=$1 [L]
+RewriteRule ^aksi-delete-nasabah-mikro-(.*)\.html$ modul/nasabah/aksi_nasabah.php?module=nasabah_mikro&act=delete&tipe2=mikro&fnId=$1 [L]
+RewriteRule ^print-nasabah-mikro\.html$ modul/nasabah/tampil.php?act=MIKRO [L]
+
+RewriteRule ^transaksi\.html$ media.php?module=transaksi_pensiun&id=$1 [L]
+RewriteRule ^tambah-transaksi\.html$ media.php?module=transaksi_pensiun&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-transaksi\.html$ modul/transaksi_pensiun/aksi_transaksi.php?module=transaksi_pensiun&act=input&username=$1 [L]
+RewriteRule ^edit-transaksi-(.*)\.html$ media.php?module=transaksi_pensiun&act=edit&fnid=$1
+RewriteRule ^aksi-edit-transaksi\.html$ modul/transaksi_pensiun/aksi_transaksi.php?module=transaksi_pensiun&act=update&fnid=$1 [L]
+RewriteRule ^aksi-delete-transaksi-(.*)\.html$ modul/transaksi_pensiun/aksi_transaksi.php?module=transaksi_pensiun&act=delete&fnid=$1 [L]
+
+RewriteRule ^transaksi-umum\.html$ media.php?module=transaksi_umum&id=$1 [L]
+RewriteRule ^tambah-transaksiumum\.html$ media.php?module=transaksi_umum&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-transaksiumum\.html$ modul/transaksi_umum/aksi_transaksi_umum.php?module=transaksi_umum&act=input&username=$1 [L]
+RewriteRule ^edit-transaksiumum-(.*)\.html$ media.php?module=transaksi_umum&act=edit&fnid=$1
+RewriteRule ^aksi-edit-transaksiumum\.html$ modul/transaksi_umum/aksi_transaksi_umum.php?module=transaksi_umum&act=update&fnid=$1 [L]
+RewriteRule ^aksi-delete-transaksiumum-(.*)\.html$ modul/transaksi_umum/aksi_transaksi_umum.php?module=transaksi_umum&act=delete&fnid=$1 [L]
+
+RewriteRule ^transaksi-mikro\.html$ media.php?module=transaksi_mikro&id=$1 [L]
+RewriteRule ^tambah-transaksimikro\.html$ media.php?module=transaksi_mikro&act=tambah&id=$1 [L]
+RewriteRule ^tambah-transaksimikro-error\.html$ media.php?module=transaksi_mikro&act=tambah&error&id=$1 [L]
+RewriteRule ^aksi-tambah-transaksimikro\.html$ modul/transaksi_mikro/aksi_transaksi_mikro.php?module=transaksi_mikro&act=input&username=$1 [L]
+RewriteRule ^aksi-add-transaksimikro\.html$ modul/transaksi_mikro/aksi_transaksi_mikro.php?module=transaksi_mikro&act=add&username=$1 [L]
+RewriteRule ^edit-transaksimikro-(.*)\.html$ media.php?module=transaksi_mikro&act=edit&fnid=$1
+RewriteRule ^edit-nasabahmikro-(.*)-(.*)\.html$ media.php?module=transaksi_mikro&act=editnasabah&fnid=$1&id=$2
+RewriteRule ^add-transaksimikro-(.*)\.html$ media.php?module=transaksi_mikro&act=add&fnid=$1
+RewriteRule ^aksi-edit-transaksimikro\.html$ modul/transaksi_mikro/aksi_transaksi_mikro.php?module=transaksi_mikro&act=update&fnid=$1 [L]
+RewriteRule ^aksi-delete-transaksimikro-(.*)-(.*)\.html$ modul/transaksi_mikro/aksi_transaksi_mikro.php?module=transaksi_mikro&act=delete&fnid=$1&ftTrans_No=$2 [L]
+RewriteRule ^aksi-delete-nasabahmikro-(.*)-(.*)\.html$ modul/transaksi_mikro/aksi_transaksi_mikro.php?module=transaksi_mikro&act=deletenasabah&fnid=$1&id=$2 [L] 
+RewriteRule ^aksi-edit-nasabahmikro-(.*)-(.*)\.html$ modul/transaksi_mikro/aksi_transaksi_mikro.php?module=transaksi_mikro&act=aksieditnasabah&fnid=$1&id=$2 [L] 
+RewriteRule ^search-rekening-mikro\.html$ modul/angsuran_mikro/formsearch.php?id=$1 [L]  
+RewriteRule ^aksi-edit-tglmikro\.html$ modul/transaksi_mikro/aksi_transaksi_mikro.php?module=transaksi_mikro&act=edittglmikro&username=$1 [L]
+
+RewriteRule ^company-info\.html$ media.php?module=company_info&id=$1 [L]
+RewriteRule ^tambah-company-info\.html$ media.php?module=company_info&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-company-info\.html$ modul/company_info/aksi_company_info.php?module=company_info&act=input&username=$1 [L]
+RewriteRule ^edit-company-info-(.*)\.html$ media.php?module=company_info&act=edit&fnid=$1
+RewriteRule ^aksi-edit-company-info\.html$ modul/company_info/aksi_company_info.php?module=company_info&act=update&fnid=$1 [L]
+RewriteRule ^aksi-delete-company-info-(.*)\.html$ modul/company_info/aksi_company_info.php?module=company_info&act=delete&fnid=$1 [L]
+RewriteRule ^aktif-company-info-(.*)\.html$ modul/company_info/aksi_company_info.php?module=company_info&act=aktif&fnid=$1 [L]
+
+RewriteRule ^jabatan\.html$ media.php?module=jabatan&id=$1 [L]
+RewriteRule ^tambah-jabatan\.html$ media.php?module=jabatan&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-jabatan\.html$ modul/jabatan/aksi_jabatan.php?module=jabatan&act=input&username=$1 [L]
+RewriteRule ^edit-jabatan-(.*)\.html$ media.php?module=jabatan&act=edit&fnid=$1
+RewriteRule ^aksi-edit-jabatan\.html$ modul/jabatan/aksi_jabatan.php?module=jabatan&act=update&fnid=$1 [L]
+RewriteRule ^aksi-delete-jabatan-(.*)\.html$ modul/jabatan/aksi_jabatan.php?module=jabatan&act=delete&fnid=$1 [L]
+RewriteRule ^print-jabatan\.html$ modul/jabatan/tampil.php [L]
+
+RewriteRule ^pinjaman-pensiun\.html$ media.php?module=pinjaman_pensiun&id=$1 [L]
+RewriteRule ^tambah-pinjaman-pensiun\.html$ media.php?module=pinjaman_pensiun&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-pinjaman-pensiun\.html$ modul/pinjaman_pensiun/aksi_pinjaman_pensiun.php?module=pinjaman_pensiun&act=input&username=$1 [L]
+RewriteRule ^edit-pinjaman-pensiun-(.*)\.html$ media.php?module=pinjaman_pensiun&act=edit&fnid=$1
+RewriteRule ^aktif-pinjaman-pensiun-(.*)\.html$ modul/pinjaman_pensiun/aksi_pinjaman_pensiun.php?module=pinjaman_pensiun&act=aktif&fnid=$1 [L]
+RewriteRule ^aksi-edit-pinjaman-pensiun\.html$ modul/pinjaman_pensiun/aksi_pinjaman_pensiun.php?module=pinjaman_pensiun&act=update&fnid=$1 [L]
+RewriteRule ^aksi-delete-pinjaman-pensiun-(.*)\.html$ modul/pinjaman_pensiun/aksi_pinjaman_pensiun.php?module=pinjaman_pensiun&act=delete&fnid=$1 [L]
+
+RewriteRule ^pinjaman-umum\.html$ media.php?module=pinjaman_umum&id=$1 [L]
+RewriteRule ^tambah-pinjaman-umum\.html$ media.php?module=pinjaman_umum&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-pinjaman-umum\.html$ modul/pinjaman_umum/aksi_pinjaman_umum.php?module=pinjaman_umum&act=input&username=$1 [L]
+RewriteRule ^edit-pinjaman-umum-(.*)\.html$ media.php?module=pinjaman_umum&act=edit&fnid=$1
+RewriteRule ^aktif-pinjaman-umum-(.*)\.html$ modul/pinjaman_umum/aksi_pinjaman_umum.php?module=pinjaman_umum&act=aktif&fnid=$1 [L]
+RewriteRule ^aksi-edit-pinjaman-umum\.html$ modul/pinjaman_umum/aksi_pinjaman_umum.php?module=pinjaman_umum&act=update&fnid=$1 [L]
+RewriteRule ^aksi-delete-pinjaman-umum-(.*)\.html$ modul/pinjaman_umum/aksi_pinjaman_umum.php?module=pinjaman_umum&act=delete&fnid=$1 [L]
+ 
+RewriteRule ^pinjaman-mikro\.html$ media.php?module=pinjaman_mikro&id=$1 [L]
+RewriteRule ^tambah-pinjaman-mikro\.html$ media.php?module=pinjaman_mikro&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-pinjaman-mikro\.html$ modul/pinjaman_mikro/aksi_pinjaman_mikro.php?module=pinjaman_mikro&act=input&username=$1 [L]
+RewriteRule ^edit-pinjaman-mikro-(.*)\.html$ media.php?module=pinjaman_mikro&act=edit&fnid=$1
+RewriteRule ^aktif-pinjaman-mikro-(.*)\.html$ modul/pinjaman_mikro/aksi_pinjaman_mikro.php?module=pinjaman_mikro&act=aktif&fnid=$1 [L]
+RewriteRule ^aksi-edit-pinjaman-mikro\.html$ modul/pinjaman_mikro/aksi_pinjaman_mikro.php?module=pinjaman_mikro&act=update&fnid=$1 [L]
+RewriteRule ^aksi-delete-pinjaman-mikro-(.*)\.html$ modul/pinjaman_mikro/aksi_pinjaman_mikro.php?module=pinjaman_mikro&act=delete&fnid=$1 [L]
+
+RewriteRule ^pelunasan-mikro\.html$ media.php?module=pelunasan_mikro&id=$1 [L]
+RewriteRule ^tambah-pelunasan-mikro\.html$ media.php?module=pelunasan_mikro&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-pelunasan-mikro\.html$ modul/pelunasan_mikro/aksi_pelunasan.php?module=pelunasan_mikro&act=input&username=$1 [L]
+RewriteRule ^edit-pelunasan-mikro-(.*)\.html$ media.php?module=pelunasan_mikro&act=edit&fnid=$1
+RewriteRule ^aktif-pelunasan-mikro-(.*)\.html$ modul/pelunasan_mikro/aksi_pelunasan.php?module=pelunasan_mikro&act=aktif&fnid=$1 [L]
+RewriteRule ^aksi-edit-pelunasan-mikro\.html$ modul/pelunasan_mikro/aksi_pelunasan.php?module=pelunasan_mikro&act=update&fnid=$1 [L]
+RewriteRule ^aksi-delete-pelunasan-mikro-(.*)\.html$ modul/pelunasan_mikro/aksi_pelunasan.php?module=pelunasan_mikro&act=delete&fnid=$1 [L]
+
+RewriteRule ^pelunasan-umum\.html$ media.php?module=pelunasan_umum&id=$1 [L]
+RewriteRule ^tambah-pelunasan-umum\.html$ media.php?module=pelunasan_umum&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-pelunasan-umum\.html$ modul/pelunasan_umum/aksi_pelunasan.php?module=pelunasan_umum&act=input&username=$1 [L]
+RewriteRule ^edit-pelunasan-umum-(.*)\.html$ media.php?module=pelunasan_umum&act=edit&fnid=$1
+RewriteRule ^aktif-pelunasan-umum-(.*)\.html$ modul/pelunasan_umum/aksi_pelunasan.php?module=pelunasan_umum&act=aktif&fnid=$1 [L]
+RewriteRule ^aksi-edit-pelunasan-umum\.html$ modul/pelunasan_umum/aksi_pelunasan.php?module=pelunasan_umum&act=update&fnid=$1 [L]
+RewriteRule ^aksi-delete-pelunasan-umum-(.*)\.html$ modul/pelunasan_umum/aksi_pelunasan.php?module=pelunasan_umum&act=delete&fnid=$1 [L]
+
+RewriteRule ^pelunasan-pensiun\.html$ media.php?module=pelunasan_pensiun&id=$1 [L]
+RewriteRule ^tambah-pelunasan-pensiun\.html$ media.php?module=pelunasan_pensiun&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-pelunasan-pensiun\.html$ modul/pelunasan_pensiun/aksi_pelunasan.php?module=pelunasan_pensiun&act=input&username=$1 [L]
+RewriteRule ^edit-pelunasan-pensiun-(.*)\.html$ media.php?module=pelunasan_pensiun&act=edit&fnid=$1
+RewriteRule ^aktif-pelunasan-pensiun-(.*)\.html$ modul/pelunasan_pensiun/aksi_pelunasan.php?module=pelunasan_pensiun&act=aktif&fnid=$1 [L]
+RewriteRule ^aksi-edit-pelunasan-pensiun\.html$ modul/pelunasan_pensiun/aksi_pelunasan.php?module=pelunasan_pensiun&act=update&fnid=$1 [L]
+RewriteRule ^aksi-delete-pelunasan-pensiun-(.*)\.html$ modul/pelunasan_pensiun/aksi_pelunasan.php?module=pelunasan_pensiun&act=delete&fnid=$1 [L]
+
+RewriteRule ^realisasi-tagihan-mikro\.html$ media.php?module=realisasi_tagihan_mikro&id=$1 [L]
+RewriteRule ^tambah-realisasi-tagihan-mikro\.html$ media.php?module=realisasi_tagihan_mikro&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-realisasi-tagihan-mikro\.html$ modul/realisasi_tagihan_mikro/aksi_realisasi_tagihan_mikro.php?module=realisasi_tagihan_mikro&act=input&username=$1 [L]
+RewriteRule ^edit-realisasi-tagihan-mikro-(.*)\.html$ media.php?module=realisasi_tagihan_mikro&act=edit&fnid=$1
+RewriteRule ^aktif-realisasi-tagihan-mikro-(.*)\.html$ modul/realisasi_tagihan_mikro/aksi_realisasi_tagihan_mikro.php?module=realisasi_tagihan_mikro&act=aktif&fnid=$1 [L]
+RewriteRule ^aksi-edit-realisasi-tagihan-mikro\.html$ modul/realisasi_tagihan_mikro/aksi_realisasi_tagihan_mikro.php?module=realisasi_tagihan_mikro&act=update&fnid=$1 [L]
+RewriteRule ^aksi-delete-realisasi-tagihan-mikro-(.*)\.html$ modul/realisasi_tagihan_mikro/aksi_realisasi_tagihan_mikro.php?module=realisasi_tagihan_mikro&act=delete&fnid=$1 [L]
+
+RewriteRule ^realisasi-tagihan-umum\.html$ media.php?module=realisasi_tagihan_umum&id=$1 [L]
+RewriteRule ^tambah-realisasi-tagihan-umum\.html$ media.php?module=realisasi_tagihan_umum&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-realisasi-tagihan-umum\.html$ modul/realisasi_tagihan_umum/aksi_realisasi_tagihan_umum.php?module=realisasi_tagihan_umum&act=input&username=$1 [L]
+RewriteRule ^edit-realisasi-tagihan-umum-(.*)\.html$ media.php?module=realisasi_tagihan_umum&act=edit&fnid=$1
+RewriteRule ^aktif-realisasi-tagihan-umum-(.*)\.html$ modul/realisasi_tagihan_umum/aksi_realisasi_tagihan_umum.php?module=realisasi_tagihan_umum&act=aktif&fnid=$1 [L]
+RewriteRule ^aksi-edit-realisasi-tagihan-umum\.html$ modul/realisasi_tagihan_umum/aksi_realisasi_tagihan_umum.php?module=realisasi_tagihan_umum&act=update&fnid=$1 [L]
+RewriteRule ^aksi-delete-realisasi-tagihan-umum-(.*)\.html$ modul/realisasi_tagihan_umum/aksi_realisasi_tagihan_umum.php?module=realisasi_tagihan_umum&act=delete&fnid=$1 [L]
+
+RewriteRule ^angsuran-pensiun\.html$ media.php?module=angsuran_pensiun&id=$1 [L]
+RewriteRule ^tambah-angsuran-pensiun\.html$ media.php?module=angsuran_pensiun&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-angsuran-pensiun\.html$ modul/angsuran_pensiun/aksi_angsuran.php?module=angsuran_pensiun&act=input&username=$1 [L]
+RewriteRule ^edit-angsuran-pensiun-(.*)\.html$ media.php?module=angsuran_pensiun&act=edit&fnid=$1
+RewriteRule ^view-angsuran-pensiun-(.*)\.html$ media.php?module=angsuran_pensiun&act=view&fnid=$1
+RewriteRule ^aksi-edit-angsuran-pensiun\.html$ modul/angsuran_pensiun/aksi_angsuran.php?module=angsuran_pensiun&act=update&fnid=$1 [L]
+RewriteRule ^aksi-delete-angsuran-pensiun-(.*)\.html$ modul/angsuran_pensiun/aksi_angsuran.php?module=angsuran_pensiun&act=delete&fnid=$1 [L]
+
+RewriteRule ^angsuran-umum\.html$ media.php?module=angsuran_umum&id=$1 [L]
+RewriteRule ^tambah-angsuran-umum\.html$ media.php?module=angsuran_umum&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-angsuran-umum\.html$ modul/angsuran_umum/aksi_angsuran.php?module=angsuran_umum&act=input&username=$1 [L]
+RewriteRule ^edit-angsuran-umum-(.*)\.html$ media.php?module=angsuran_umum&act=edit&fnid=$1
+RewriteRule ^view-angsuran-umum-(.*)\.html$ media.php?module=angsuran_umum&act=view&fnid=$1
+RewriteRule ^aksi-edit-angsuran-umum\.html$ modul/angsuran_umum/aksi_angsuran.php?module=angsuran_umum&act=update&fnid=$1 [L]
+RewriteRule ^aksi-delete-angsuran-umum-(.*)\.html$ modul/angsuran_umum/aksi_angsuran.php?module=angsuran_umum&act=delete&fnid=$1 [L]
+
+RewriteRule ^angsuran-mikro\.html$ media.php?module=angsuran_mikro&id=$1 [L]
+RewriteRule ^tambah-angsuran-mikro\.html$ media.php?module=angsuran_mikro&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-angsuran-mikro\.html$ modul/angsuran_mikro/aksi_angsuran.php?module=angsuran_mikro&act=input&username=$1 [L]
+RewriteRule ^edit-angsuran-mikro-(.*)\.html$ media.php?module=angsuran_mikro&act=edit&fnid=$1
+RewriteRule ^view-angsuran-mikro-(.*)\.html$ media.php?module=angsuran_mikro&act=view&fnid=$1
+RewriteRule ^aksi-edit-angsuran-mikro\.html$ modul/angsuran_mikro/aksi_angsuran.php?module=angsuran_mikro&act=update&fnid=$1 [L]
+RewriteRule ^aksi-delete-angsuran-mikro-(.*)\.html$ modul/angsuran_mikro/aksi_angsuran.php?module=angsuran_mikro&act=delete&fnid=$1 [L]
+
+RewriteRule ^no-perkiraan\.html$ media.php?module=no_perkiraan&id=$1 [L]
+RewriteRule ^tambah-no-perkiraan\.html$ media.php?module=no_perkiraan&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-no-perkiraan\.html$ modul/no_perkiraan/aksi_no_perkiraan.php?module=no_perkiraan&act=input&username=$1 [L]
+RewriteRule ^edit-no-perkiraan-(.*)\.html$ media.php?module=no_perkiraan&act=edit&ftKodePerkiraan=$1
+RewriteRule ^view-no-perkiraan-(.*)\.html$ media.php?module=no_perkiraan&act=view&ftKodePerkiraan=$1
+RewriteRule ^aksi-edit-no-perkiraan\.html$ modul/no_perkiraan/aksi_no_perkiraan.php?module=no_perkiraan&act=update&ftKodePerkiraan=$1 [L]
+RewriteRule ^aksi-delete-no-perkiraan-(.*)\.html$ modul/no_perkiraan/aksi_no_perkiraan.php?module=no_perkiraan&act=delete&ftKodePerkiraan=$1 [L]
+RewriteRule ^print-no-perkiraan\.html$ modul/no_perkiraan/tampil.php [L]
+
+RewriteRule ^sub-group-perkiraan\.html$ media.php?module=sub_group_perkiraan&id=$1 [L]
+RewriteRule ^tambah-sub-group-perkiraan\.html$ media.php?module=sub_group_perkiraan&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-sub-group-perkiraan\.html$ modul/sub_group_perkiraan/aksi_sub_group_perkiraan.php?module=sub_group_perkiraan&act=input&username=$1 [L]
+RewriteRule ^edit-sub-group-perkiraan-(.*)\.html$ media.php?module=sub_group_perkiraan&act=edit&ftCategoryCode=$1
+RewriteRule ^view-sub-group-perkiraan-(.*)\.html$ media.php?module=sub_group_perkiraan&act=view&ftCategoryCode=$1
+RewriteRule ^aksi-edit-sub-group-perkiraan\.html$ modul/sub_group_perkiraan/aksi_sub_group_perkiraan.php?module=sub_group_perkiraan&act=update&ftCategoryCode=$1 [L]
+RewriteRule ^aksi-delete-sub-group-perkiraan-(.*)\.html$ modul/sub_group_perkiraan/aksi_sub_group_perkiraan.php?module=sub_group_perkiraan&act=delete&ftCategoryCode=$1 [L]
+
+RewriteRule ^setting-coa\.html$ media.php?module=setting_coa&id=$1 [L]
+RewriteRule ^tambah-setting-coa\.html$ media.php?module=setting_coa&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-setting-coa\.html$ modul/setting_coa/aksi_setting_coa.php?module=setting_coa&act=input&username=$1 [L]
+RewriteRule ^edit-setting-coa-(.*)\.html$ media.php?module=setting_coa&act=edit&ftCOA_No=$1
+RewriteRule ^view-setting-coa-(.*)\.html$ media.php?module=setting_coa&act=view&ftCOA_No=$1
+RewriteRule ^aksi-edit-setting-coa\.html$ modul/setting_coa/aksi_setting_coa.php?module=setting_coa&act=update&ftCOA_No=$1 [L]
+RewriteRule ^aksi-delete-setting-coa-(.*)\.html$ modul/setting_coa/aksi_setting_coa.php?module=setting_coa&act=delete&ftCOA_No=$1 [L]
+
+RewriteRule ^laporan-penyaluran-kredit-pensiun\.html$ media.php?module=laporan_penyaluran_kredit_pensiun&id=$1 [L]
+RewriteRule ^laporan-pelunasan-kredit-pensiun\.html$ media.php?module=laporan_pelunasan_kredit_pensiun&id=$1 [L]
+RewriteRule ^laporan-setor-sendiri-kredit-pensiun\.html$ media.php?module=laporan_setor_sendiri_kredit_pensiun&id=$1 [L]
+RewriteRule ^laporan-daftar-nominatif-pensiun\.html$ media.php?module=laporan_daftar_nominatif_pensiun&id=$1 [L]
+RewriteRule ^laporan-daftar-pelunasan-pensiun\.html$ media.php?module=laporan_daftar_pelunasan_pensiun&id=$1 [L]
+RewriteRule ^laporan-daftar-tagihan-pensiun\.html$ media.php?module=laporan_daftar_tagihan_pensiun&id=$1 [L]
+RewriteRule ^cetak-bukti-angsuran-pensiun\.html$ media.php?module=cetak_bukti_angsuran_pensiun&id=$1 [L]
+
+RewriteRule ^laporan-penyaluran-kredit-umum\.html$ media.php?module=laporan_penyaluran_kredit_umum&id=$1 [L]
+RewriteRule ^laporan-pelunasan-kredit-umum\.html$ media.php?module=laporan_pelunasan_kredit_umum&id=$1 [L]
+RewriteRule ^laporan-setor-sendiri-kredit-umum\.html$ media.php?module=laporan_setor_sendiri_kredit_umum&id=$1 [L]
+RewriteRule ^laporan-daftar-nominatif-umum\.html$ media.php?module=laporan_daftar_nominatif_umum&id=$1 [L]
+RewriteRule ^laporan-daftar-pelunasan-umum\.html$ media.php?module=laporan_daftar_pelunasan_umum&id=$1 [L]
+RewriteRule ^laporan-daftar-tagihan-umum\.html$ media.php?module=laporan_daftar_tagihan_umum&id=$1 [L]
+RewriteRule ^cetak-bukti-angsuran-umum\.html$ media.php?module=cetak_bukti_angsuran_umum&id=$1 [L]
+
+RewriteRule ^laporan-penyaluran-kredit-mikro\.html$ media.php?module=laporan_penyaluran_kredit_mikro&id=$1 [L]
+RewriteRule ^laporan-pelunasan-kredit-mikro\.html$ media.php?module=laporan_pelunasan_kredit_mikro&id=$1 [L]
+RewriteRule ^laporan-setor-sendiri-kredit-mikro\.html$ media.php?module=laporan_setor_sendiri_kredit_mikro&id=$1 [L]
+RewriteRule ^laporan-daftar-nominatif-mikro\.html$ media.php?module=laporan_daftar_nominatif_mikro&id=$1 [L]
+RewriteRule ^laporan-daftar-pelunasan-mikro\.html$ media.php?module=laporan_daftar_pelunasan_mikro&id=$1 [L]
+RewriteRule ^laporan-daftar-tagihan-mikro\.html$ media.php?module=laporan_daftar_tagihan_mikro&id=$1 [L]
+RewriteRule ^cetak-bukti-angsuran-mikro\.html$ media.php?module=cetak_bukti_angsuran_mikro&id=$1 [L]
+RewriteRule ^cetak-form-terima-bagi-hasil-mikro\.html$ media.php?module=cetak_form_terima_bagi_hasil_mikro&id=$1 [L]
+
+RewriteRule ^general-jurnal\.html$ media.php?module=general_jurnal&id=$1 [L]
+RewriteRule ^tambah-general-jurnal\.html$ media.php?module=general_jurnal&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-general-jurnal\.html$ modul/general_jurnal/aksi_general_jurnal.php?module=general_jurnal&act=input&username=$1 [L]
+RewriteRule ^edit-general-jurnal-(.*)\.html$ media.php?module=general_jurnal&act=edit&fnid=$1
+RewriteRule ^aksi-edit-general-jurnal\.html$ modul/general_jurnal/aksi_general_jurnal.php?module=general_jurnal&act=update&fnid=$1 [L]
+RewriteRule ^aksi-delete-general-jurnal-(.*)\.html$ modul/general_jurnal/aksi_general_jurnal.php?module=general_jurnal&act=delete&fnid=$1 [L]
+
+RewriteRule ^hak-akses\.html$ media.php?module=hak_akses&id=$1 [L]
+RewriteRule ^tambah-hak-akses\.html$ media.php?module=hak_akses&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-hak-akses\.html$ modul/hak_akses/aksi_hak_akses.php?module=hak_akses&act=input&username=$1 [L]
+RewriteRule ^edit-hak-akses-(.*)\.html$ media.php?module=hak_akses&act=edit&akses_id=$1
+RewriteRule ^aksi-edit-hak-akses\.html$ modul/hak_akses/aksi_hak_akses.php?module=hak_akses&act=update&akses_id=$1 [L]
+RewriteRule ^aksi-delete-hak-akses-(.*)\.html$ modul/hak_akses/aksi_hak_akses.php?module=hak_akses&act=delete&akses_id=$1 [L]
+
+RewriteRule ^group-menu\.html$ media.php?module=group_menu&id=$1 [L]
+RewriteRule ^tambah-group-menu\.html$ media.php?module=group_menu&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-group-menu\.html$ modul/group_menu/aksi_group_menu.php?module=group_menu&act=input&username=$1 [L]
+RewriteRule ^edit-group-menu-(.*)\.html$ media.php?module=group_menu&act=edit&id_main=$1
+RewriteRule ^aksi-edit-group-menu\.html$ modul/group_menu/aksi_group_menu.php?module=group_menu&act=update&id_main=$1 [L]
+RewriteRule ^aksi-delete-group-menu-(.*)\.html$ modul/group_menu/aksi_group_menu.php?module=group_menu&act=hapus&id_main=$1 [L]
+
+RewriteRule ^menu\.html$ media.php?module=menu&id=$1 [L]
+RewriteRule ^tambah-menu\.html$ media.php?module=menu&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-menu\.html$ modul/menu/aksi_menu.php?module=menu&act=input&username=$1 [L]
+RewriteRule ^edit-menu-(.*)\.html$ media.php?module=menu&act=edit&id_sub=$1
+RewriteRule ^aksi-edit-menu\.html$ modul/menu/aksi_menu.php?module=menu&act=update&id_sub=$1 [L]
+RewriteRule ^aksi-delete-menu-(.*)\.html$ modul/menu/aksi_menu.php?module=menu&act=hapus&id_sub=$1 [L]
+
+RewriteRule ^module\.html$ media.php?module=module&id=$1 [L]
+RewriteRule ^tambah-module\.html$ media.php?module=module&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-module\.html$ modul/module/aksi_module.php?module=module&act=input&username=$1 [L]
+RewriteRule ^edit-module-(.*)\.html$ media.php?module=module&act=edit&id_module=$1
+RewriteRule ^aksi-edit-module\.html$ modul/module/aksi_module.php?module=module&act=update&id_module=$1 [L]
+RewriteRule ^aksi-delete-module-(.*)\.html$ modul/module/aksi_module.php?module=module&act=hapus&id_module=$1 [L]
+
+RewriteRule ^pemasukan-kas\.html$ media.php?module=pemasukan_kas&id=$1 [L]
+RewriteRule ^tambah-pemasukan-kas\.html$ media.php?module=pemasukan_kas&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-pemasukan-kas\.html$ modul/transaksi_kas/aksi_pemasukan_kas.php?module=pemasukan_kas&act=input&username=$1 [L]
+RewriteRule ^edit-pemasukan-kas-(.*)\.html$ media.php?module=pemasukan_kas&act=edit&fnId=$1
+RewriteRule ^aksi-edit-pemasukan-kas\.html$ modul/transaksi_kas/aksi_pemasukan_kas.php?module=pemasukan_kas&act=update&fnId=$1 [L]
+RewriteRule ^aksi-delete-pemasukan-kas-(.*)\.html$ modul/transaksi_kas/aksi_pemasukan_kas.php?module=pemasukan_kas&act=delete&fnId=$1 [L]
+
+RewriteRule ^pengeluaran-kas\.html$ media.php?module=pengeluaran_kas&id=$1 [L]
+RewriteRule ^tambah-pengeluaran-kas\.html$ media.php?module=pengeluaran_kas&act=tambah&id=$1 [L]
+RewriteRule ^aksi-tambah-pengeluaran-kas\.html$ modul/transaksi_kas/aksi_pengeluaran_kas.php?module=pengeluaran_kas&act=input&username=$1 [L]
+RewriteRule ^edit-pengeluaran-kas-(.*)\.html$ media.php?module=pengeluaran_kas&act=edit&fnId=$1
+RewriteRule ^aksi-edit-pengeluaran-kas\.html$ modul/transaksi_kas/aksi_pengeluaran_kas.php?module=pengeluaran_kas&act=update&fnId=$1 [L]
+RewriteRule ^aksi-delete-pengeluaran-kas-(.*)\.html$ modul/transaksi_kas/aksi_pengeluaran_kas.php?module=pengeluaran_kas&act=delete&fnId=$1 [L]
+
+RewriteRule ^setoran-tunai\.html$ media.php?module=setoran_tunai&id=$1 [L]
+RewriteRule ^getdata-setoran-tunai\.html$ modul/simpanan/aksi_setoran_tunai.php?module=setoran_tunai&act=getdata&username=$1 [L]
+RewriteRule ^getdata-jenis\.html$ modul/simpanan/aksi_setoran_tunai.php?module=setoran_tunai&act=getDataJenis&username=$1 [L]
+RewriteRule ^getdata-anggota\.html$ modul/simpanan/aksi_setoran_tunai.php?module=setoran_tunai&act=getDataAnggota&username=$1 [L]
+
+RewriteRule ^penarikan-tunai\.html$ media.php?module=penarikan_tunai&id=$1 [L]
+RewriteRule ^getdata-penarikan-tunai\.html$ modul/simpanan/aksi_penarikan_tunai.php?module=penarikan_tunai&act=getdata&username=$1 [L]
+RewriteRule ^getdata-jenis\.html$ modul/simpanan/aksi_penarikan_tunai.php?module=penarikan_tunai&act=getDataJenis&username=$1 [L]
+RewriteRule ^getdata-anggota\.html$ modul/simpanan/aksi_penarikan_tunai.php?module=penarikan_tunai&act=getDataAnggota&username=$1 [L]
+
+Options All -Indexes
+</IfModule>
