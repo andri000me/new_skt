@@ -26,7 +26,7 @@ $tampil2=mysql_query("SELECT xx.fdTrans_date, xx.ftTrans_No, xx.ftCustomer_Code,
 					INNER JOIN tlnasabah yy ON xx.ftCustomer_Code = yy.`ftNoRekening`	
 					WHERE xx.ftCustomer_Code='$search' 	
 					ORDER BY xx.fdTrans_date");
-	$no1 = 0;
+	
 	
 ?>
  <style type="text/css">
@@ -59,27 +59,51 @@ $tampil2=mysql_query("SELECT xx.fdTrans_date, xx.ftTrans_No, xx.ftCustomer_Code,
 	<thead>
 	<tbody>
 <?php	
-
-
-	while($r=mysql_fetch_array($tampil)){
-		$fcRrpMasuk=format_rupiah($r['fcRrpMasuk']);
-		$fcRrpKeluar=format_rupiah($r['fcRrpKeluar']);
-		$Saldo=format_rupiah($r['Saldo']);				
-		$no1++;	
-				
-				echo"
-    <tr>
-        <td align='center'>$no1</td>
-        <td align='center'>$r[fdTrans_date]</td>      
-        <td align='center'>$r[ftTrans_No]</td> 
-        <td align='right'>$fcRrpMasuk</td>
-        <td align='right'>$fcRrpKeluar</td>
-        <td align='right'>$Saldo</td>
-      
-    </tr>";
+    $count=1;
+	function num($rp){
+		if($rp!=0){$r = number_format($rp, 0, '.', ',');}else{$r=0;}return $r;
 	}
-
+	while($r=mysql_fetch_array($tampil)){	
+	echo"
+    <tr>
+        <td align='center'>$count</td>
+        <td align='center'>$r[fdTrans_date]</td>      
+        <td align='center'>$r[ftTrans_No]</td> ";
+        if($count==1){
+			/* pertama kali deklarasi fcRrpMasuk */
+		   echo"<td>Rp. ".num($r['fcRrpMasuk'])."</td>";
+		   echo"<td>Rp. ".num($r['fcRrpKeluar'])."</td>";
+		   $fcRrpMasuk=$r['fcRrpMasuk'];
+		   $saldo=$r['fcRrpMasuk']."</td>";
+		   echo"<td>RP. ".num($saldo);   
+		  }else{
+		   if($r['fcRrpMasuk']!=0){   
+			 /* Jika fcRrpMasuk tidak sama dengan 0 */
+			echo"<td>Rp. ".num($r['fcRrpMasuk'])."</td>";
+			echo"<td>Rp. ".num($r['fcRrpKeluar'])."</td>";
+			$fcRrpMasuk=$fcRrpMasuk+$r['fcRrpMasuk'];
+			$saldo=$saldo+$r['fcRrpMasuk']."</td>";
+			echo"<td>Rp. ".num($saldo);    
+		   }else{
+			/* Jika fcRrpMasuk sama dengan 0 */
+			echo"<td>Rp. ".num($r['fcRrpMasuk'])."</td>";
+			echo"<td>Rp. ".num($r['fcRrpKeluar'])."</td>";
+			$fcRrpKeluar=$fcRrpKeluar+$r['fcRrpKeluar'];
+			$saldo=$saldo-$r['fcRrpKeluar']."</td>";
+			echo"<td>Rp. ".num($saldo);    
+		   }
+		  }
+		 echo"</tr>";
+		// echo"<tr>";
+		  $count++;    
+	}
+  echo"<tr>";
+  echo"<th colspan='3' style='text-align: right;'>Jumlah --></th>";
+  echo"<th>Rp. ".num($fcRrpMasuk)."</th>";
+  echo"<th>Rp. ".num($fcRrpKeluar)."</th>";
+  echo"<th>Rp. ".num($saldo)."</th>";
+ echo"</tr>";
 
 ?>
-</tbody>
-	</table>
+	<tbody>
+</table>
