@@ -356,6 +356,9 @@ RewriteRule ^getdata-anggota\.html$ modul/simpanan/aksi_penarikan_tunai.php?modu
 
 RewriteRule ^rekening-koran-rrp-ds-umum\.html$ media.php?module=rekening_koran_rrp_ds_umum&id=$1 [L]
 
+RewriteRule ^rekening-koran-tabungan-mikro\.html$ media.php?module=rekening_koran_tabungan_mikro&id=$1 [L]
+RewriteRule ^rekening-koran-rrp-ds-mikro\.html$ media.php?module=rekening_koran_rrp_ds_mikro&id=$1 [L]
+
 
 Options All -Indexes
 </IfModule>
