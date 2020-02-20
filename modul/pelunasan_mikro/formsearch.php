@@ -133,7 +133,8 @@ tfoot {
 						b.fcTabAngsuran * a.sisa AS fcTabAngsuran,(b.fcPokokAngsuran + b.fcBunganAngsuran + b.fcAdmAngsuran + b.fcPbltAngsuran + b.fcTabAngsuran) * a.sisa AS fcTotalAngsuran,
 					b.fcplafond, b.ffbunga, fnJW, c.ftAlamat, c.ftNamaKelompok,c.ftNamaNasabah,c.ftNoRekening, b.fdTrans_date
 					FROM (
-							SELECT xx.ftCustomer_Code, xx.ftTrans_No, SUM(xx.fcPlafond) AS fcOutstanding, SUM(xx.fcPlafond)/SUM(xx.fcPokokAngsuran) AS sisa
+							SELECT xx.ftCustomer_Code, xx.ftTrans_No, SUM(xx.fcPlafond) AS fcOutstanding, 
+							ROUND(SUM(xx.fcPlafond)/SUM(xx.fcPokokAngsuran),0) AS sisa
 							FROM (
 								SELECT ftCustomer_Code, ftTrans_No, fcPlafond , fcPokokAngsuran
 								FROM txpinjaman_mikro_nasabah_hdr
@@ -161,7 +162,7 @@ tfoot {
 							GROUP BY xx.ftCustomer_Code, xx.ftTrans_No
 					    ) a	
 					LEFT JOIN txpinjaman_mikro_nasabah_hdr b ON a.ftCustomer_Code = b.ftCustomer_Code AND a.ftTrans_No = b.ftTrans_No
-					LEFT JOIN tlnasabah c ON c.ftNoRekening = a.ftCustomer_Code");
+					LEFT JOIN tlnasabah c ON c.ftNoRekening = a.ftCustomer_Code WHERE a.fcOutstanding > 0");
 				
 				$no1 = 0;	
 				while($r=mysql_fetch_array($tampil)){

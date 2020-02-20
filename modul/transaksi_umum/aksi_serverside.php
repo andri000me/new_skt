@@ -63,7 +63,7 @@ try{
                 SELECT IFNULL(a.ftCustomer_Code,'') AS ftCustomer_Code, IFNULL(a.ftTrans_No,'') AS ftTrans_No,
                 -IFNULL(b.fcPokokAngsuran,0), 0,0
                 FROM txpinjaman_umum_hdr a
-                LEFT JOIN txangsuran_umum_hdr b ON a.ftCustomer_Code = b.ftCustomer_Code AND a.ftTrans_No = b.ftLoan_No_Old
+                LEFT JOIN txangsuran_umum_hdr b ON a.ftCustomer_Code = b.ftCustomer_Code AND a.ftTrans_No = b.ftloan_No
                 AND b.fnStatus = 1
                 WHERE a.fnstatus = 1
                 /*AND a.ftTrans_No='PJU19111611'*/

@@ -65,7 +65,7 @@ switch($_GET[act]){
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-       TRANSAKSI PENARIKAN TUNAI TABUNGAN MIKRO 
+       TRANSAKSI SETORAN TUNAI 
         
       </h1>
       <ol class="breadcrumb">
@@ -93,9 +93,9 @@ switch($_GET[act]){
 			<div class="table-responsive">
               <table   id="dg" 
 						class="easyui-datagrid"
-						title="Data Transaksi Penarikan Tunai" 
+						title="Data Transaksi Setoran Tunai" 
 						style="width:auto; height: auto;" 
-						url="getdata-penarikan-tunai.html" 
+						url="getdata-setoran-tunai.html" 
 						pagination="true" rownumbers="true" 
 						fitColumns="true" singleSelect="true" collapsible="true"
 						sortName="tgl_transaksi" sortOrder="DESC"
@@ -111,7 +111,7 @@ switch($_GET[act]){
 							<th data-options="field:'kas_id', width:'15',halign:'center', align:'left'" hidden="true">Simpan ke Kas</th>
 							<th data-options="field:'kas_id_txt', width:'15',halign:'center', align:'left'">Simpan ke Kas</th>
 							<th data-options="field:'jenis_id',halign:'center', align:'center'" hidden="true">Jenis</th>
-							<th data-options="field:'jenis_id_txt', width:'20',halign:'center', align:'left'">Jenis Penarikan</th>
+							<th data-options="field:'jenis_id_txt', width:'20',halign:'center', align:'left'">Jenis Simpanan</th>
 							<th data-options="field:'jumlah', width:'15', halign:'center', align:'right'">Jumlah</th>
 							<th data-options="field:'ket', width:'15', halign:'center', align:'left'" hidden="true">Keterangan</th>
 							<th data-options="field:'user', width:'15', halign:'center', align:'center'">User </th>
@@ -146,26 +146,55 @@ switch($_GET[act]){
 					<a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" plain="false" onclick="clearSearch()">Hapus Filter</a>
 				</div>
 			</div>	
-			<!-- Dialog Form -->
-			<div id="dialog-form" class="easyui-dialog" show= "blind" hide= "blind" modal="true" resizable="false" style="width:500px; height:470px; padding: 20px 20px" closed="true" buttons="#dialog-buttons" style="display: none;">
-				<form id="form" method="post" novalidate>
-						<table style="height:200px" >
-							<tr style="height:35px">
-								<td>Tanggal Transaksi</td>
-								<td>:</td>
-								<td>
-									<div class="input-group date dtpicker col-md-5" style="z-index: 9999 !important;">
-										<input type="text" name="tgl_transaksi_txt" id="tgl_transaksi_txt" style="width:150px; height:25px" required="true" readonly="readonly" />
-										<input type="hidden" name="tgl_transaksi" id="tgl_transaksi" />
-										<div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-									</div>
-								</td>	
-							</tr>
-							<tr id="temp_wilayah" style="height:35px;">
+<!--  Dialog Form -->			
+<div id="dialog-form" class="easyui-dialog" show= "blind" hide= "blind" modal="true" resizable="false" style="width:480px; height:520px; padding-left:20px; padding-top:20px; " closed="true" buttons="#dialog-buttons" style="display: none;">
+	<form id="form" method="post" novalidate>
+	
+					<table>
+						<tr style="height:35px">
+							<td>Tanggal Transaksi </td>
+							<td>:</td>
+							<td>
+								<div class="input-group date dtpicker col-md-5" style="z-index: 9999 !important;">
+									<input type="text" name="tgl_transaksi_txt" id="tgl_transaksi_txt" style="width:150px; height:25px" required="true" readonly="readonly" />
+									<input type="hidden" name="tgl_transaksi" id="tgl_transaksi" />
+									<div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+								</div>
+							</td>	
+						</tr>
+						<tr style="height:40px">
+							<td><label for="type">Identitas Penyetor</label></td>
+						</tr>
+						<tr style="height:35px">
+							<td> Nama Penyetor</td>
+							<td>:</td>
+							<td>
+								<input id="nama_penyetor" name="nama_penyetor" style="width:190px; height:20px" class="easyui-validatebox " required="true">
+							</td>	
+						</tr>
+						<tr style="height:35px">
+							<td>Nomor Identitas</td>
+							<td>:</td>
+							<td>
+								<input id="no_identitas" name="no_identitas" style="width:190px; height:20px" class="easyui-validatebox " required="true">
+							</td>	
+						</tr>
+						<tr style="height:35px">
+							<td>Alamat</td>
+							<td>:</td>
+							<td>
+								<textarea name="alamat" cols="30" rows="1" style="width:190px;" id="alamat" name="alamat" class="easyui-validatebox " required="true"></textarea>
+							</td>	
+						</tr>
+						<tr style="height:40px">
+							<td colspan="2"><label for="type">Identitas Penerima</label></td>
+						</tr>
+						
+						<tr id="temp_wilayah" style="height:35px;">
 							<td>Wilayah</td>
 							<td>:</td>
 							<td>
-								<select id="wilayah" name="wilayah" style="width:195px; height:25px" class="easyui-validatebox" required="true">
+								<select id="wilayah" name="wilayah" style="width:195px; height:25px" class="easyui-validatebox " required="true">
 									<option value="0"> -- Pilih Wilayah --</option>
 									<?php       
                              $tampil=mysql_query("SELECT ftNamaWilayah,ftKodeWilayah FROM tlwilayah WHERE fnStatus =1 ORDER BY ftNamaWilayah DESC");
@@ -192,85 +221,63 @@ switch($_GET[act]){
 							<td>:</td>
 							<td>
 								<input id="anggota_id" name="anggota_id" style="width:195px; height:25px" class="easyui-combogrid" class="easyui-validatebox" required="true" >
+								
 							</td>	
 						</tr>
 						<tr id="temp_anggota2" style="height:35px;display:none">
 							<td>Nama Anggota</td>
 							<td>:</td>
 							<td>
-								<input id="anggota_id_txt" name="anggota_id_txt" style="width:195px; height:25px" class="easyui-validatebox"  >
+								<input id="anggota_id_txt" name="anggota_id_txt" style="width:195px; height:25px"  >
 							</td>	
 						</tr>
-									<tr style="height:35px">
-										<td>Jenis Simpanan</td>
-										<td>:</td>
-										<td>
-											<select id="jenis_id" name="jenis_id" style="width:195px; height:25px" class="easyui-validatebox" required="true">
-												<option value="0"> -- Pilih Simpanan --</option>			
-												<?php       
+						
+						<tr style="height:35px">
+							<td>Jenis Simpanan</td>
+							<td>:</td>
+							<td>
+								<select id="jenis_id" name="jenis_id" style="width:195px; height:25px" class="easyui-validatebox " required="true">
+									<option value="0"> -- Pilih Simpanan --</option>
+									<?php       
 									 $tampil=mysql_query("SELECT id,jns_simpan,jumlah FROM jns_simpan WHERE tampil ='Y' ");
 											 while($r=mysql_fetch_array($tampil)){
 									   echo "<option value='$r[id]'>$r[jns_simpan]</option>"; }
 									?>
-											</select>
-										</td>	
-									</tr>
-									<tr style="height:35px">
-										<td>Jumlah Penarikan</td>
-										<td>:</td>
-										<td>
-											<input class="easyui-numberbox" id="jumlah" name="jumlah" data-options="precision:0,groupSeparator:',',decimalSeparator:'.'" class="easyui-validatebox" required="true" style="width:195px; height:25px"  />
-										</td>	
-									</tr>
-									<tr style="height:35px">
-										<td>Keterangan</td>
-										<td>:</td>
-										<td>
-											<input id="ket" name="ket" style="width:190px; height:20px" >
-										</td>	
-									</tr>
-									<tr style="height:35px">
-										<td>Ambil Dari Kas</td>
-										<td>:</td>
-										<td>
-											<select id="kas" name="kas_id" style="width:195px; height:25px" class="easyui-validatebox" required="true">
-												<option value="0"> -- Pilih Kas --</option>			
-												<?php       
+								</select>
+							</td>	
+						</tr>
+						<tr style="height:35px">
+							<td>Jumlah Simpanan</td>
+							<td>:</td>
+							<td>
+								<input class="easyui-numberbox" id="jumlah" name="jumlah" data-options="precision:0,groupSeparator:',',decimalSeparator:'.'" class="easyui-validatebox" required="true" style="width:195px; height:25px"  />
+							</td>	
+						</tr>
+						<tr style="height:35px">
+							<td>Keterangan</td>
+							<td>:</td>
+							<td>
+								<input id="ket" name="ket" style="width:190px; height:20px" >
+							</td>	
+						</tr>
+						<tr style="height:35px">
+							<td>Simpan Ke Kas</td>
+							<td>:</td>
+							<td>
+								<select id="kas" name="kas_id" style="width:195px; height:25px" class="easyui-validatebox" required="true">
+									<option value="0"> -- Pilih Kas --</option>			
+									<?php       
 									 $tampil=mysql_query("SELECT id,nama FROM nama_kas_tbl WHERE aktif ='Y' ");
 											 while($r=mysql_fetch_array($tampil)){
 									   echo "<option value='$r[id]'>$r[nama]</option>"; }
 									?>
-											</select>
-										</td>
-									</tr>
-									<tr style="height:35px">
-										<td colspan="3"><label for="type">Identitas Kuasa Pengambilan<label></td>
-									</tr>
-									<tr style="height:35px">
-										<td> Nama Kuasa</td>
-										<td>:</td>
-										<td>
-											<input id="nama_penyetor" name="nama_penyetor" style="width:190px; height:20px" >
-										</td>	
-									</tr>
-									<tr style="height:35px">
-										<td>Nomor Identitas</td>
-										<td>:</td>
-										<td>
-											<input id="no_identitas" name="no_identitas" style="width:190px; height:20px" >
-										</td>	
-									</tr>
-									<tr style="height:35px">
-										<td>Alamat</td>
-										<td>:</td>
-										<td>
-											<textarea name="alamat" cols="30" rows="1" style="width:190px;" id="alamat" name="alamat"></textarea>
-										</td>	
-									</tr>
-								</table>
-							
-				</form>
-			</div>
+								</select>
+							</td>
+						</tr>
+				</table>
+				
+	</form>
+</div>
 
 <!-- Dialog Button -->
 <div id="dialog-buttons">
@@ -315,7 +322,7 @@ var url;
 		var kelompok = $("#ftKodeKelompok").val();
 		$('#anggota_id').combogrid({
 		panelWidth:400,
-		url: 'modul/simpanan/aksi_penarikan_tunai.php?module=penarikan_tunai&act=getDataAnggota&kel='+kelompok,
+		url: 'modul/simpanan/aksi_setoran_tunai.php?module=setoran_tunai&act=getDataAnggota&kel='+kelompok,
 		idField:'id',
 		valueField:'id',
 		textField:'nama',
@@ -332,7 +339,7 @@ var url;
 			$('#anggota_id2').val(val_anggota_id);
 			
 			$.ajax({
-				url: 'modul/simpanan/aksi_penarikan_tunai.php?module=penarikan_tunai&act=getDataAnggota_id&anggota=' + val_anggota_id,
+				url: 'modul/simpanan/aksi_setoran_tunai.php?module=setoran_tunai&act=getDataAnggota_id&anggota=' + val_anggota_id,
 				type: 'POST',
 				dataType: 'html',
 				data: {anggota_id: val_anggota_id},
@@ -423,7 +430,7 @@ var url;
 		var tgl_dari			= $('input[name=daterangepicker_start]').val();
 		var tgl_sampai			= $('input[name=daterangepicker_end]').val();
 
-		var win = window.open('modul/simpanan/aksi_penarikan_tunai.php?module=penarikan_tunai&act=cetak&kode_transaksi=' + kode_transaksi + '&tgl_dari=' + tgl_dari + '&tgl_sampai=' + tgl_sampai);
+		var win = window.open('modul/simpanan/aksi_setoran_tunai.php?module=setoran_tunai&act=cetak&kode_transaksi=' + kode_transaksi + '&tgl_dari=' + tgl_dari + '&tgl_sampai=' + tgl_sampai);
 		if (win) {
 			win.focus();
 		} else {
@@ -450,21 +457,21 @@ var url;
 			var val_jumlah = $(this).val();
 			$('#jumlah').numberbox('setValue', number_format(val_jumlah));
 		});
-		url = "modul/simpanan/aksi_penarikan_tunai.php?module=penarikan_tunai&act=create" 
+		url = "modul/simpanan/aksi_setoran_tunai.php?module=setoran_tunai&act=create" 
 		
 	}
 	
 	function update(){
 		var row = jQuery('#dg').datagrid('getSelected');
 		if(row){
-			jQuery('#dialog-form').dialog('open').dialog('setTitle','Edit Data Penarikan');
+			jQuery('#dialog-form').dialog('open').dialog('setTitle','Edit Data Setoran');
 			jQuery('#form').form('load',row);
 			$('#temp_wilayah').css("display","none");
 			$('#temp_kelompok').css("display","none")
 			$('#temp_anggota').css("display","none")	
 			$('#temp_anggota2').css("display","")	
 			$('#anggota_id_txt').attr('disabled', true);
-			url = 'modul/simpanan/aksi_penarikan_tunai.php?module=penarikan_tunai&act=update&id=' + row.id;
+			url = 'modul/simpanan/aksi_setoran_tunai.php?module=setoran_tunai&act=update&id=' + row.id;
 			$('#jumlah ~ span input').keyup(function(){
 				var val_jumlah = $(this).val();
 				$('#jumlah').numberbox('setValue', number_format(val_jumlah));
@@ -482,8 +489,6 @@ var url;
 				
 	function save() {
 		var string = $("#form").serialize();
-		//validasi teks kosong ftKodeKelompok
-		//console.log(string);
 		var wilayah = $("#wilayah").val();
 		if(wilayah == 0) {
 			$.messager.show({
@@ -506,20 +511,8 @@ var url;
 			$("#ftKodeKelompok").focus();
 			return false;
 		}
-		var jenis_id = $("#jenis_id").val();
-	    if(jenis_id == 0) {
-			$.messager.show({
-				title:'<div><i class="fa fa-warning"></i> Peringatan ! </div>',
-				msg: '<div class="text-red"><i class="fa fa-ban"></i> Maaf, Jenis Simpanan belum dipilih.</div>',
-				timeout:2000,
-				showType:'slide'
-			});
-			$("#jenis_id").focus();
-			return false;
-		}
-
 		var kas = $("#kas").val();
-		var string = $("#form").serialize();
+		var akun_id = $("#akun_id").val();
 		if(kas == 0) {
 			$.messager.show({
 				title:'<div><i class="fa fa-warning"></i> Peringatan ! </div>',
@@ -528,6 +521,17 @@ var url;
 				showType:'slide'
 			});
 			$("#kas").focus();
+			return false;
+		}
+
+		if(akun_id == 0) {
+			$.messager.show({
+				title:'<div><i class="fa fa-warning"></i> Peringatan ! </div>',
+				msg: '<div class="text-red"><i class="fa fa-ban"></i> Maaf, Jenis Akun belum dipilih.</div>',
+				timeout:2000,
+				showType:'slide'
+			});
+			$("#akun_id").focus();
 			return false;
 		}
 
@@ -555,7 +559,7 @@ var url;
 		} else {
 			$.messager.show({
 				title:'<div><i class="fa fa-info"></i> Informasi</div>',
-				msg: 'Silahkan lengkapi data.',
+				msg: '<div class="text-red"><i class="fa fa-ban"></i> Maaf, Lengkapi seluruh pengisian data.</div>',
 				timeout:2000,
 				showType:'slide'
 			});
@@ -569,7 +573,7 @@ var url;
 				if (r){  
 					$.ajax({
 						type	: "POST",
-						url		: "modul/simpanan/aksi_penarikan_tunai.php?module=penarikan_tunai&act=delete&id="+row.id,
+						url		: "modul/simpanan/aksi_setoran_tunai.php?module=setoran_tunai&act=delete&id="+row.id,
 						
 						success	: function(result){
 							var result = eval('('+result+')');

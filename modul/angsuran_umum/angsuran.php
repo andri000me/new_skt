@@ -224,14 +224,16 @@ switch($_GET[act]){
 					$thn2 = substr($thn, -2);
 					$no = "0001";
 					// cari id transaksi terakhir yang berawalan tanggal hari ini
-					$query = "SELECT max(fnid) AS last FROM txangsuran_umum_hdr  ";
+					//$query = "SELECT max(fnid) AS last FROM txangsuran_umum_hdr  ";
+					$query = "SELECT (ftTrans_No) AS LAST FROM txangsuran_umum_hdr WHERE LENGTH(ftTrans_No)>=10 ORDER BY RIGHT(ftTrans_No,4) DESC LIMIT 1 ";
 					$hasil = mysql_query($query);
 					$data  = mysql_fetch_array($hasil);
 					$lastNoTransaksi = $data['last'];
 					$number = range(1,9999);
 					$newID = sprintf("%04s", $lastNoTransaksi);
 					
-					$cariid=mysql_query("SELECT max(ftTrans_No) as notrans FROM txangsuran_umum_hdr");
+					//$cariid=mysql_query("SELECT max(ftTrans_No) as notrans FROM txangsuran_umum_hdr");
+					$cariid=mysql_query("SELECT (ftTrans_No) AS notrans FROM txangsuran_umum_hdr WHERE LENGTH(ftTrans_No)>=10 ORDER BY RIGHT(ftTrans_No,4) DESC LIMIT 1 ");
 					$cari=mysql_fetch_array($cariid);
 					$id=$cari['notrans'];
 					$pot=substr($id,-4);
