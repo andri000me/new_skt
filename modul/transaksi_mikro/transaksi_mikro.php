@@ -353,7 +353,8 @@ switch($_GET[act]){
 					$number = range(1,9999);
 					$newID = sprintf("%04s", $lastNoTransaksi);
 					
-					$cariid=mysql_query("SELECT max(ftTrans_No) as notrans FROM txpinjaman_mikro_hdr");
+					//$cariid=mysql_query("SELECT max(ftTrans_No) as notrans FROM txpinjaman_mikro_hdr");
+          $cariid=mysql_query("SELECT (ftTrans_No) AS notrans FROM txpinjaman_mikro_hdr ORDER BY RIGHT(ftTrans_No,4) DESC LIMIT 1");
 					$cari=mysql_fetch_array($cariid);
 					$id=$cari['notrans'];
 					$pot=substr($id,-4);

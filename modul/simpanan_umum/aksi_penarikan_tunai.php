@@ -43,14 +43,15 @@ elseif ($module=='penarikan_tunai' AND $act=='getDataAnggota'){
   $q=$_POST['q'];
   $kel=$_GET['kel'];  
  // var_dump($kel);exit;
-  $sql="select fnId,ftNamaNasabah,ftAlamat,ftJabatan,ftNamaKelompok FROM tlnasabah WHERE ftNamaNasabah like '%".$q."%' and ftNamaKelompok='$kel'";
+  $sql="select fnId, ftNoRekening, ftNamaNasabah,ftAlamat,ftJabatan,ftNamaKelompok FROM tlnasabah WHERE fnTipeNasabah='UMUM' AND ftNamaNasabah like '%".$q."%' and ftNamaKelompok='$kel'";
 //  print_r($sql);
   $i	= 0;
   $rows   = array(); 
   $result2=mysql_query($sql);
  while($r=mysql_fetch_array($result2)){
 		$rows[$i]['id'] = $r[fnId];
-		$rows[$i]['kode_anggota'] = 'AG'.sprintf('%04d', $r[fnId]) . '<br>' . $r[ftJabatan];
+		//$rows[$i]['kode_anggota'] = 'AG'.sprintf('%04d', $r[fnId]) . '<br>' . $r[ftJabatan];
+		$rows[$i]['kode_anggota'] = $r[ftNoRekening];
 		$rows[$i]['nama'] = $r[ftNamaNasabah];
 		//$rows[$i]['kota'] = $r[ftAlamat];	
 		$i++;
@@ -63,13 +64,14 @@ elseif ($module=='penarikan_tunai' AND $act=='getDataAnggota_id'){
   $q=$_POST['q'];
   $anggota=$_GET['anggota'];  
  // var_dump($anggota);exit;
-  $sql="select fnId,ftNamaNasabah,ftAlamat,ftJabatan,ftNamaKelompok FROM tlnasabah WHERE fnId='$anggota'";
+  $sql="select fnId,ftNoRekening,ftNamaNasabah,ftAlamat,ftJabatan,ftNamaKelompok FROM tlnasabah WHERE fnId='$anggota'";
   $i	= 0;
   $rows   = array(); 
   $result2=mysql_query($sql);
  while($r=mysql_fetch_array($result2)){
 		$rows[$i]['id'] = $r[fnId];
-		$rows[$i]['kode_anggota'] = 'AG'.sprintf('%04d', $r[fnId]) . '<br>' . $r[ftJabatan];
+		//$rows[$i]['kode_anggota'] = 'AG'.sprintf('%04d', $r[fnId]) . '<br>' . $r[ftJabatan];
+		$rows[$i]['kode_anggota'] = $r[ftNoRekening];
 		$rows[$i]['nama'] = $r[ftNamaNasabah];
 		//$rows[$i]['kota'] = $r[ftAlamat];	
 		$i++;
@@ -95,7 +97,7 @@ elseif ($module=='penarikan_tunai' AND $act=='getdata'){
 	   left join jns_simpan b on a.jenis_id=b.id
 	   left join nama_kas_tbl c on a.kas_id=c.id 
 	   left join tlnasabah d on a.anggota_id=d.fnId
-	   WHERE a.dk='K' ";
+	   WHERE a.ftType='UMUM' and a.dk='K' ";
   if(is_array($q)) {
 			if($q['kode_transaksi'] != '') {
 				$q['kode_transaksi'] = str_replace('TRD', '', $q['kode_transaksi']);
@@ -144,7 +146,7 @@ elseif ($module=='penarikan_tunai' AND $act=='getdata'){
 		$rows[$i]['wilayah'] = $r[wilayah];
 		$rows[$i]['ftKodeKelompok'] = $r[ftKodeKelompok];
 		$rows[$i]['nota'] = '<p></p><p>
-		<a href="'.'modul/simpanan/aksi_penarikan_tunai.php?module=penarikan_tunai&act=cetak_penarikan&id_simpan='.$r[id].'" title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
+		<a href="'.'modul/simpanan_umum/aksi_penarikan_tunai.php?module=penarikan_tunai&act=cetak_penarikan&id_simpan='.$r[id].'" title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
 		
 		$i++;
 	  }
@@ -172,7 +174,8 @@ elseif ($module=='penarikan_tunai' AND $act=='create'){
 												no_identitas,
 												alamat,
 												wilayah,
-												ftKodeKelompok
+												ftKodeKelompok,
+												ftType
 									)
 										VALUES('$_POST[tgl_transaksi]',
 											   '$_POST[anggota_id]',
@@ -187,7 +190,7 @@ elseif ($module=='penarikan_tunai' AND $act=='create'){
 											   '$_POST[no_identitas]',
 											   '$_POST[alamat]',
 											   '$_POST[wilayah]',
-											   '$_POST[ftKodeKelompok]'
+											   '$_POST[ftKodeKelompok]','UMUM'
 								  )");
 		$res=true;	
 		$msg='<div class="text-green"><i class="fa fa-check"></i> Data berhasil disimpan </div>';
@@ -263,7 +266,7 @@ elseif ($module=='penarikan_tunai' AND $act=='update'){
 			   left join jns_simpan b on a.jenis_id=b.id
 			   left join nama_kas_tbl c on a.kas_id=c.id 
 			   left join tlnasabah d on a.anggota_id=d.fnId
-			   WHERE a.dk='K'";
+			   WHERE a.ftType='UMUM' and a.dk='K'";
 		if($tgl_dari != '1970-01-01'){
 			$sql .=" AND DATE(a.tgl_transaksi) >= '".$tgl_dari."' ";
 			$sql .=" AND DATE(a.tgl_transaksi) <= '".$tgl_sampai."' ";
@@ -333,7 +336,7 @@ elseif ($module=='penarikan_tunai' AND $act=='update'){
 			   left join jns_simpan b on a.jenis_id=b.id
 			   left join nama_kas_tbl c on a.kas_id=c.id 
 			   left join tlnasabah d on a.anggota_id=d.fnId
-			   WHERE a.id='$id_simpan'";
+			   WHERE a.ftType='UMUM' and a.id='$id_simpan'";
 		$result= mysql_query($sql);
 		while($row=mysql_fetch_array($result)){
 			

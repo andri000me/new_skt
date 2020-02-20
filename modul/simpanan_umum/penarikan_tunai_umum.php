@@ -65,7 +65,7 @@ switch($_GET[act]){
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-       TRANSAKSI PENARIKAN TUNAI TABUNGAN MIKRO 
+       TRANSAKSI PENARIKAN TUNAI TABUNGAN UMUM 
         
       </h1>
       <ol class="breadcrumb">
@@ -161,22 +161,23 @@ switch($_GET[act]){
 									</div>
 								</td>	
 							</tr>
-							<tr id="temp_wilayah" style="height:35px;">
-							<td>Wilayah</td>
+							<tr id="temp_perusahaan" style="height:35px;">
+							<td>Perusahaan</td>
 							<td>:</td>
 							<td>
 								<select id="wilayah" name="wilayah" style="width:195px; height:25px" class="easyui-validatebox" required="true">
-									<option value="0"> -- Pilih Wilayah --</option>
+									<option value="0"> -- Pilih Perusahaan --</option>
 									<?php       
-                             $tampil=mysql_query("SELECT ftNamaWilayah,ftKodeWilayah FROM tlwilayah WHERE fnStatus =1 ORDER BY ftNamaWilayah DESC");
+                             				$tampil=mysql_query("SELECT ftNamaKantorBayar,ftKodeKantorBayar FROM tlkantorbayar WHERE fnStatus =1 ORDER BY ftNamaKantorBayar DESC");
                             
-                               while($r=mysql_fetch_array($tampil)){
-                               echo "<option value='$r[ftKodeWilayah]'>$r[ftNamaWilayah]</option>"; }
-                               ?>
+                               				while($r=mysql_fetch_array($tampil)){
+                               				echo "<option value='$r[ftKodeKantorBayar]'>$r[ftNamaKantorBayar]</option>"; }
+                               		?>
 								</select>
 							</td>	
 						</tr>
-						<tr id="temp_kelompok" style="height:35px">
+
+						<!-- <tr id="temp_kelompok" style="height:35px">
 							<td>Kelompok</td>
 							<td>:</td>
 							<td>
@@ -185,7 +186,7 @@ switch($_GET[act]){
 									
 								</select>
 							</td>	
-						</tr>
+						</tr> -->
 					
 						<tr id="temp_anggota" style="height:35px">
 							<td>Nama Anggota</td>
@@ -215,6 +216,7 @@ switch($_GET[act]){
 											</select>
 										</td>	
 									</tr>
+
 									<tr style="height:35px">
 										<td>Jumlah Penarikan</td>
 										<td>:</td>
@@ -301,7 +303,7 @@ var url;
 		 var wilayah = $("#wilayah").val();
 			$.ajax({
 			type: "GET", 	
-			url: "modul/simpanan/showkelompok.php?wilayah="+wilayah,
+			url: "modul/simpanan_umum/showkelompok.php?wilayah="+wilayah,
 		//	data: "wilayah="+wilayah,
 		//	dataType: 'json',
 			cache: false,
@@ -315,7 +317,7 @@ var url;
 		var kelompok = $("#ftKodeKelompok").val();
 		$('#anggota_id').combogrid({
 		panelWidth:400,
-		url: 'modul/simpanan/aksi_penarikan_tunai.php?module=penarikan_tunai&act=getDataAnggota&kel='+kelompok,
+		url: 'modul/simpanan_umum/aksi_penarikan_tunai.php?module=penarikan_tunai&act=getDataAnggota&kel='+kelompok,
 		idField:'id',
 		valueField:'id',
 		textField:'nama',
@@ -332,7 +334,7 @@ var url;
 			$('#anggota_id2').val(val_anggota_id);
 			
 			$.ajax({
-				url: 'modul/simpanan/aksi_penarikan_tunai.php?module=penarikan_tunai&act=getDataAnggota_id&anggota=' + val_anggota_id,
+				url: 'modul/simpanan_umum/aksi_penarikan_tunai.php?module=penarikan_tunai&act=getDataAnggota_id&anggota=' + val_anggota_id,
 				type: 'POST',
 				dataType: 'html',
 				data: {anggota_id: val_anggota_id},
@@ -423,7 +425,7 @@ var url;
 		var tgl_dari			= $('input[name=daterangepicker_start]').val();
 		var tgl_sampai			= $('input[name=daterangepicker_end]').val();
 
-		var win = window.open('modul/simpanan/aksi_penarikan_tunai.php?module=penarikan_tunai&act=cetak&kode_transaksi=' + kode_transaksi + '&tgl_dari=' + tgl_dari + '&tgl_sampai=' + tgl_sampai);
+		var win = window.open('modul/simpanan_umum/aksi_penarikan_tunai.php?module=penarikan_tunai&act=cetak&kode_transaksi=' + kode_transaksi + '&tgl_dari=' + tgl_dari + '&tgl_sampai=' + tgl_sampai);
 		if (win) {
 			win.focus();
 		} else {
@@ -450,7 +452,7 @@ var url;
 			var val_jumlah = $(this).val();
 			$('#jumlah').numberbox('setValue', number_format(val_jumlah));
 		});
-		url = "modul/simpanan/aksi_penarikan_tunai.php?module=penarikan_tunai&act=create" 
+		url = "modul/simpanan_umum/aksi_penarikan_tunai.php?module=penarikan_tunai&act=create" 
 		
 	}
 	
@@ -464,7 +466,7 @@ var url;
 			$('#temp_anggota').css("display","none")	
 			$('#temp_anggota2').css("display","")	
 			$('#anggota_id_txt').attr('disabled', true);
-			url = 'modul/simpanan/aksi_penarikan_tunai.php?module=penarikan_tunai&act=update&id=' + row.id;
+			url = 'modul/simpanan_umum/aksi_penarikan_tunai.php?module=penarikan_tunai&act=update&id=' + row.id;
 			$('#jumlah ~ span input').keyup(function(){
 				var val_jumlah = $(this).val();
 				$('#jumlah').numberbox('setValue', number_format(val_jumlah));
@@ -569,7 +571,7 @@ var url;
 				if (r){  
 					$.ajax({
 						type	: "POST",
-						url		: "modul/simpanan/aksi_penarikan_tunai.php?module=penarikan_tunai&act=delete&id="+row.id,
+						url		: "modul/simpanan_umum/aksi_penarikan_tunai.php?module=penarikan_tunai&act=delete&id="+row.id,
 						
 						success	: function(result){
 							var result = eval('('+result+')');

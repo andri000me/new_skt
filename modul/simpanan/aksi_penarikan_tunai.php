@@ -43,14 +43,15 @@ elseif ($module=='penarikan_tunai' AND $act=='getDataAnggota'){
   $q=$_POST['q'];
   $kel=$_GET['kel'];  
  // var_dump($kel);exit;
-  $sql="select fnId,ftNamaNasabah,ftAlamat,ftJabatan,ftNamaKelompok FROM tlnasabah WHERE ftNamaNasabah like '%".$q."%' and ftNamaKelompok='$kel'";
+  $sql="select fnId,ftNoRekening,ftNamaNasabah,ftAlamat,ftJabatan,ftNamaKelompok FROM tlnasabah WHERE ftNamaNasabah like '%".$q."%' and ftNamaKelompok='$kel'";
 //  print_r($sql);
   $i	= 0;
   $rows   = array(); 
   $result2=mysql_query($sql);
  while($r=mysql_fetch_array($result2)){
 		$rows[$i]['id'] = $r[fnId];
-		$rows[$i]['kode_anggota'] = 'AG'.sprintf('%04d', $r[fnId]) . '<br>' . $r[ftJabatan];
+		//$rows[$i]['kode_anggota'] = 'AG'.sprintf('%04d', $r[fnId]) . '<br>' . $r[ftJabatan];
+		$rows[$i]['kode_anggota'] = $r[ftNoRekening];
 		$rows[$i]['nama'] = $r[ftNamaNasabah];
 		//$rows[$i]['kota'] = $r[ftAlamat];	
 		$i++;
@@ -63,13 +64,14 @@ elseif ($module=='penarikan_tunai' AND $act=='getDataAnggota_id'){
   $q=$_POST['q'];
   $anggota=$_GET['anggota'];  
  // var_dump($anggota);exit;
-  $sql="select fnId,ftNamaNasabah,ftAlamat,ftJabatan,ftNamaKelompok FROM tlnasabah WHERE fnId='$anggota'";
+  $sql="select fnId,ftNoRekening,ftNamaNasabah,ftAlamat,ftJabatan,ftNamaKelompok FROM tlnasabah WHERE fnId='$anggota'";
   $i	= 0;
   $rows   = array(); 
   $result2=mysql_query($sql);
  while($r=mysql_fetch_array($result2)){
 		$rows[$i]['id'] = $r[fnId];
-		$rows[$i]['kode_anggota'] = 'AG'.sprintf('%04d', $r[fnId]) . '<br>' . $r[ftJabatan];
+		//$rows[$i]['kode_anggota'] = 'AG'.sprintf('%04d', $r[fnId]) . '<br>' . $r[ftJabatan];
+		$rows[$i]['kode_anggota'] = $r[ftNoRekening];
 		$rows[$i]['nama'] = $r[ftNamaNasabah];
 		//$rows[$i]['kota'] = $r[ftAlamat];	
 		$i++;
@@ -172,7 +174,8 @@ elseif ($module=='penarikan_tunai' AND $act=='create'){
 												no_identitas,
 												alamat,
 												wilayah,
-												ftKodeKelompok
+												ftKodeKelompok,
+												ftType
 									)
 										VALUES('$_POST[tgl_transaksi]',
 											   '$_POST[anggota_id]',
@@ -187,7 +190,7 @@ elseif ($module=='penarikan_tunai' AND $act=='create'){
 											   '$_POST[no_identitas]',
 											   '$_POST[alamat]',
 											   '$_POST[wilayah]',
-											   '$_POST[ftKodeKelompok]'
+											   '$_POST[ftKodeKelompok]','MIKRO'
 								  )");
 		$res=true;	
 		$msg='<div class="text-green"><i class="fa fa-check"></i> Data berhasil disimpan </div>';

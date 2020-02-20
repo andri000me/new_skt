@@ -231,7 +231,8 @@ switch($_GET[act]){
 					$number = range(1,9999);
 					$newID = sprintf("%04s", $lastNoTransaksi);
 					
-					$cariid=mysql_query("SELECT max(ftTrans_No) as notrans FROM txangsuran_mikro_hdr");
+					//$cariid=mysql_query("SELECT max(ftTrans_No) as notrans FROM txpelunasan_mikro_hdr");
+					$cariid=mysql_query("SELECT (ftTrans_No) AS notrans FROM txpelunasan_mikro_hdr WHERE LENGTH(ftTrans_No)>=10 ORDER BY RIGHT(ftTrans_No,4) DESC LIMIT 1 ");
 					$cari=mysql_fetch_array($cariid);
 					$id=$cari['notrans'];
 					$pot=substr($id,-4);
@@ -248,7 +249,7 @@ switch($_GET[act]){
 					}
 					
 					?>
-					<input type="text" name="ftTrans_No" class="form-control " value=<?php echo "AM$thn2$bln$unik2"; ?> placeholder="Input ..." id="ftTrans_No" readonly=true>
+					<input type="text" name="ftTrans_No" class="form-control " value=<?php echo "PELM$thn2$bln$unik2"; ?> placeholder="Input ..." id="ftTrans_No" readonly=true>
 			     
 			 </div>
 			
