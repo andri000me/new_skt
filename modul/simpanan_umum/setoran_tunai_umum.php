@@ -65,7 +65,7 @@ switch($_GET[act]){
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-       TRANSAKSI SETORAN TUNAI 
+       TRANSAKSI SETORAN TUNAI UMUM
         
       </h1>
       <ol class="breadcrumb">
@@ -95,7 +95,7 @@ switch($_GET[act]){
 						class="easyui-datagrid"
 						title="Data Transaksi Setoran Tunai" 
 						style="width:auto; height: auto;" 
-						url="getdata-setoran-tunai.html" 
+						url="getdata-setoran-tunai-umum.html" 
 						pagination="true" rownumbers="true" 
 						fitColumns="true" singleSelect="true" collapsible="true"
 						sortName="tgl_transaksi" sortOrder="DESC"
@@ -190,28 +190,18 @@ switch($_GET[act]){
 							<td colspan="2"><label for="type">Identitas Penerima</label></td>
 						</tr>
 						
-						<tr id="temp_wilayah" style="height:35px;">
-							<td>Wilayah</td>
+						<tr id="temp_perusahaan" style="height:35px;">
+							<td>Perusahaan</td>
 							<td>:</td>
 							<td>
-								<select id="wilayah" name="wilayah" style="width:195px; height:25px" class="easyui-validatebox " required="true">
-									<option value="0"> -- Pilih Wilayah --</option>
+								<select id="perusahaan" name="perusahaan" style="width:195px; height:25px" class="easyui-validatebox" required="true">
+									<option value="0" selected> -- Pilih Perusahaan --</option>
 									<?php       
-                             $tampil=mysql_query("SELECT ftNamaWilayah,ftKodeWilayah FROM tlwilayah WHERE fnStatus =1 ORDER BY ftNamaWilayah DESC");
+                             				$tampil=mysql_query("SELECT ftNamaKantorBayar,ftKodeKantorBayar FROM tlkantorbayar WHERE fnStatus =1 ORDER BY ftNamaKantorBayar DESC");
                             
-                               while($r=mysql_fetch_array($tampil)){
-                               echo "<option value='$r[ftKodeWilayah]'>$r[ftNamaWilayah]</option>"; }
-                               ?>
-								</select>
-							</td>	
-						</tr>
-						<tr id="temp_kelompok" style="height:35px">
-							<td>Kelompok</td>
-							<td>:</td>
-							<td>
-								<select id="ftKodeKelompok" name="ftKodeKelompok" style="width:195px; height:25px" class="easyui-validatebox " required="true">
-									<option value="0"> -- Pilih Kelompok --</option>
-									
+                               				while($r=mysql_fetch_array($tampil)){
+                               				echo "<option value='$r[ftKodeKantorBayar]'>$r[ftNamaKantorBayar]</option>"; }
+                               		?>
 								</select>
 							</td>	
 						</tr>
@@ -304,25 +294,11 @@ switch($_GET[act]){
 var url;
 	$(document).ready(function() {
 	
-	$('#wilayah').change(function(){
-		 var wilayah = $("#wilayah").val();
-			$.ajax({
-			type: "GET", 	
-			url: "modul/simpanan/showkelompok.php?wilayah="+wilayah,
-		//	data: "wilayah="+wilayah,
-		//	dataType: 'json',
-			cache: false,
-			success: function(msg){
-			$("#ftKodeKelompok").html(msg);
-			}
-		});
-	 });
-	 
-	 $('#ftKodeKelompok').change(function(){
-		var kelompok = $("#ftKodeKelompok").val();
+	 $('#perusahaan').change(function(){
+		var perusahaan = $("#perusahaan").val();
 		$('#anggota_id').combogrid({
 		panelWidth:400,
-		url: 'modul/simpanan/aksi_setoran_tunai.php?module=setoran_tunai&act=getDataAnggota&kel='+kelompok,
+		url: 'modul/simpanan_umum/aksi_setoran_tunai_umum.php?module=setoran_tunai_umum&act=getDataAnggota&kel='+perusahaan,
 		idField:'id',
 		valueField:'id',
 		textField:'nama',
@@ -339,7 +315,7 @@ var url;
 			$('#anggota_id2').val(val_anggota_id);
 			
 			$.ajax({
-				url: 'modul/simpanan/aksi_setoran_tunai.php?module=setoran_tunai&act=getDataAnggota_id&anggota=' + val_anggota_id,
+				url: 'modul/simpanan_umum/aksi_setoran_tunai_umum.php?module=setoran_tunai_umum&act=getDataAnggota_id&anggota=' + val_anggota_id,
 				type: 'POST',
 				dataType: 'html',
 				data: {anggota_id: val_anggota_id},
@@ -430,7 +406,7 @@ var url;
 		var tgl_dari			= $('input[name=daterangepicker_start]').val();
 		var tgl_sampai			= $('input[name=daterangepicker_end]').val();
 
-		var win = window.open('modul/simpanan/aksi_setoran_tunai.php?module=setoran_tunai&act=cetak&kode_transaksi=' + kode_transaksi + '&tgl_dari=' + tgl_dari + '&tgl_sampai=' + tgl_sampai);
+		var win = window.open('modul/simpanan_umum/aksi_setoran_tunai_umum.php?module=setoran_tunai_umum&act=cetak&kode_transaksi=' + kode_transaksi + '&tgl_dari=' + tgl_dari + '&tgl_sampai=' + tgl_sampai);
 		if (win) {
 			win.focus();
 		} else {
@@ -442,6 +418,8 @@ var url;
 	
 	function create(){
 		$('#dialog-form').dialog('open').dialog('setTitle','Tambah Data');
+		$('#temp_anggota').css("display","")	
+		$('#temp_anggota2').css("display","none")
 		$('#form').form('clear');
 		$('#anggota_id ~ span span a').show();
 		$('#anggota_id ~ span input').removeAttr('disabled');
@@ -449,15 +427,16 @@ var url;
 		
 		$('#tgl_transaksi_txt').val('<?php echo $tanggal;?>');
 		$('#tgl_transaksi').val('<?php echo $tanggal;?>');
-		$('#wilayah option[value="0"]').prop('selected', true);
-		$('#ftKodeKelompok option[value="0"]').prop('selected', true);
+		$('#perusahaan').attr("disabled",false);
+		$('#perusahaan option[value="0"]').prop('selected', true);
+		
 		$('#kas option[value="0"]').prop('selected', true);
 		$('#jenis_id option[value="0"]').prop('selected', true);
 		$('#jumlah ~ span input').keyup(function(){
 			var val_jumlah = $(this).val();
 			$('#jumlah').numberbox('setValue', number_format(val_jumlah));
 		});
-		url = "modul/simpanan/aksi_setoran_tunai.php?module=setoran_tunai&act=create" 
+		url = "modul/simpanan_umum/aksi_setoran_tunai_umum.php?module=setoran_tunai_umum&act=create" 
 		
 	}
 	
@@ -466,12 +445,12 @@ var url;
 		if(row){
 			jQuery('#dialog-form').dialog('open').dialog('setTitle','Edit Data Setoran');
 			jQuery('#form').form('load',row);
-			$('#temp_wilayah').css("display","none");
-			$('#temp_kelompok').css("display","none")
-			$('#temp_anggota').css("display","none")	
-			$('#temp_anggota2').css("display","")	
+			$('#perusahaan').attr("disabled",true);
+			
+			$('#temp_anggota').css("display","none");	
+			$('#temp_anggota2').css("display","");	
 			$('#anggota_id_txt').attr('disabled', true);
-			url = 'modul/simpanan/aksi_setoran_tunai.php?module=setoran_tunai&act=update&id=' + row.id;
+			url = 'modul/simpanan_umum/aksi_setoran_tunai_umum.php?module=setoran_tunai_umum&act=update&id=' + row.id;
 			$('#jumlah ~ span input').keyup(function(){
 				var val_jumlah = $(this).val();
 				$('#jumlah').numberbox('setValue', number_format(val_jumlah));
@@ -489,28 +468,18 @@ var url;
 				
 	function save() {
 		var string = $("#form").serialize();
-		var wilayah = $("#wilayah").val();
-		if(wilayah == 0) {
+		var perusahaan = $("#perusahaan").val();		
+		if(perusahaan == 0 || perusahaan == "" || perusahaan == null) {
 			$.messager.show({
 				title:'<div><i class="fa fa-warning"></i> Peringatan ! </div>',
-				msg: '<div class="text-red"><i class="fa fa-ban"></i> Maaf, Wilayah belum dipilih.</div>',
+				msg: '<div class="text-red"><i class="fa fa-ban"></i> Maaf, Perusahaan belum dipilih.</div>',
 				timeout:2000,
 				showType:'slide'
 			});
-			$("#wilayah").focus();
+			$("#perusahaan").focus();
 			return false;
 		}
-		var ftKodeKelompok = $("#ftKodeKelompok").val();
-		if(ftKodeKelompok == 0) {
-			$.messager.show({
-				title:'<div><i class="fa fa-warning"></i> Peringatan ! </div>',
-				msg: '<div class="text-red"><i class="fa fa-ban"></i> Maaf, Kelompok belum dipilih.</div>',
-				timeout:2000,
-				showType:'slide'
-			});
-			$("#ftKodeKelompok").focus();
-			return false;
-		}
+
 		var kas = $("#kas").val();
 		var akun_id = $("#akun_id").val();
 		if(kas == 0) {
@@ -573,7 +542,7 @@ var url;
 				if (r){  
 					$.ajax({
 						type	: "POST",
-						url		: "modul/simpanan/aksi_setoran_tunai.php?module=setoran_tunai&act=delete&id="+row.id,
+						url		: "modul/simpanan_umum/aksi_setoran_tunai_umum.php?module=setoran_tunai_umum&act=delete&id="+row.id,
 						
 						success	: function(result){
 							var result = eval('('+result+')');

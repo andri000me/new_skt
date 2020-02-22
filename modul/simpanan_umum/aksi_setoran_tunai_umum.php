@@ -26,12 +26,12 @@ $act=$_GET[act];
 $id=$_GET[id];
 
 // Hapus tipe
-if ($module=='penarikan_tunai' AND $act=='delete'){
+if ($module=='setoran_tunai_umum' AND $act=='delete'){
   mysql_query("DELETE FROM tbl_trans_sp WHERE id='$id'");
   echo json_encode(array('ok' => true, 'msg' => '<div class="text-green"><i class="fa fa-check"></i> Data berhasil disimpan </div>'));
 }
 // Get Data Jenis Simpanan
-elseif ($module=='penarikan_tunai' AND $act=='getDataJenis'){
+elseif ($module=='setoran_tunai_umum' AND $act=='getDataJenis'){
   $jenis_id=$_POST['jenis_id'];	
   $sql="select * FROM jns_simpan WHERE id='".$jenis_id."' and tampil='Y'";
   $result=mysql_fetch_array(mysql_query($sql));
@@ -39,19 +39,17 @@ elseif ($module=='penarikan_tunai' AND $act=='getDataJenis'){
   echo $jum;
 }
 // Get Data Anggota
-elseif ($module=='penarikan_tunai' AND $act=='getDataAnggota'){
+elseif ($module=='setoran_tunai_umum' AND $act=='getDataAnggota'){
   $q=$_POST['q'];
   $kel=$_GET['kel'];  
  // var_dump($kel);exit;
-  $sql="select fnId, ftNoRekening, ftNamaNasabah,ftAlamat,ftJabatan,ftNamaKelompok FROM tlnasabah WHERE fnTipeNasabah='UMUM' AND ftNamaNasabah like '%".$q."%' and ftNamaKelompok='$kel'";
-//  print_r($sql);
+  $sql="select fnId,ftNamaNasabah,ftAlamat,ftJabatan,ftNamaKelompok FROM tlnasabah WHERE ftNamaNasabah like '%".$q."%' and ftKantorBayar='$kel'";
   $i	= 0;
   $rows   = array(); 
   $result2=mysql_query($sql);
  while($r=mysql_fetch_array($result2)){
 		$rows[$i]['id'] = $r[fnId];
-		//$rows[$i]['kode_anggota'] = 'AG'.sprintf('%04d', $r[fnId]) . '<br>' . $r[ftJabatan];
-		$rows[$i]['kode_anggota'] = $r[ftNoRekening];
+		$rows[$i]['kode_anggota'] = 'AG'.sprintf('%04d', $r[fnId]) . '<br>' . $r[ftJabatan];
 		$rows[$i]['nama'] = $r[ftNamaNasabah];
 		//$rows[$i]['kota'] = $r[ftAlamat];	
 		$i++;
@@ -60,18 +58,17 @@ elseif ($module=='penarikan_tunai' AND $act=='getDataAnggota'){
   echo json_encode($result);
 }
 
-elseif ($module=='penarikan_tunai' AND $act=='getDataAnggota_id'){
+elseif ($module=='setoran_tunai_umum' AND $act=='getDataAnggota_id'){
   $q=$_POST['q'];
   $anggota=$_GET['anggota'];  
  // var_dump($anggota);exit;
-  $sql="select fnId,ftNoRekening,ftNamaNasabah,ftAlamat,ftJabatan,ftNamaKelompok FROM tlnasabah WHERE fnId='$anggota'";
+  $sql="select fnId,ftNamaNasabah,ftAlamat,ftJabatan,ftNamaKelompok FROM tlnasabah WHERE fnId='$anggota'";
   $i	= 0;
   $rows   = array(); 
   $result2=mysql_query($sql);
  while($r=mysql_fetch_array($result2)){
 		$rows[$i]['id'] = $r[fnId];
-		//$rows[$i]['kode_anggota'] = 'AG'.sprintf('%04d', $r[fnId]) . '<br>' . $r[ftJabatan];
-		$rows[$i]['kode_anggota'] = $r[ftNoRekening];
+		$rows[$i]['kode_anggota'] = 'AG'.sprintf('%04d', $r[fnId]) . '<br>' . $r[ftJabatan];
 		$rows[$i]['nama'] = $r[ftNamaNasabah];
 		//$rows[$i]['kota'] = $r[ftAlamat];	
 		$i++;
@@ -79,8 +76,8 @@ elseif ($module=='penarikan_tunai' AND $act=='getDataAnggota_id'){
   $result = array('rows'=>$rows);
   echo json_encode($result);
 }
-// Get data penarikan Tunai
-elseif ($module=='penarikan_tunai' AND $act=='getdata'){
+// Get data Setoran Tunai
+elseif ($module=='setoran_tunai_umum' AND $act=='getdata'){
  $offset = isset($_POST['page']) ? intval($_POST['page']) : 1;
  $limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
  $sort  = isset($_POST['sort']) ? $_POST['sort'] : 'tgl_transaksi';
@@ -97,7 +94,7 @@ elseif ($module=='penarikan_tunai' AND $act=='getdata'){
 	   left join jns_simpan b on a.jenis_id=b.id
 	   left join nama_kas_tbl c on a.kas_id=c.id 
 	   left join tlnasabah d on a.anggota_id=d.fnId
-	   WHERE a.ftType='UMUM' and a.dk='K' ";
+	   WHERE a.ftType='UMUM' and a.dk='D' ";
   if(is_array($q)) {
 			if($q['kode_transaksi'] != '') {
 				$q['kode_transaksi'] = str_replace('TRD', '', $q['kode_transaksi']);
@@ -143,10 +140,10 @@ elseif ($module=='penarikan_tunai' AND $act=='getdata'){
 		$rows[$i]['nama_penyetor'] = $r[nama_penyetor];
 		$rows[$i]['no_identitas'] = $r[no_identitas];
 		$rows[$i]['alamat'] = $r[alamat];
-		$rows[$i]['wilayah'] = $r[wilayah];
+		$rows[$i]['perusahaan'] = $r[ftNamaKantorBayar];
 		$rows[$i]['ftKodeKelompok'] = $r[ftKodeKelompok];
 		$rows[$i]['nota'] = '<p></p><p>
-		<a href="'.'modul/simpanan_umum/aksi_penarikan_tunai.php?module=penarikan_tunai&act=cetak_penarikan&id_simpan='.$r[id].'" title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
+		<a href="'.'modul/simpanan/aksi_setoran_tunai_umum.php?module=setoran_tunai_umum&act=cetak_simpanan&id_simpan='.$r[id].'" title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
 		
 		$i++;
 	  }
@@ -155,8 +152,8 @@ elseif ($module=='penarikan_tunai' AND $act=='getdata'){
   echo json_encode($result);
 }
 
-// Input penarikan Tunai
-elseif ($module=='penarikan_tunai' AND $act=='create'){
+// Input Setoran Tunai
+elseif ($module=='setoran_tunai_umum' AND $act=='create'){
 	if(str_replace(',', '', $_POST[jumlah]) <= 0) {
 			$res=false;
 			$msg='<div class="text-red"><i class="fa fa-ban"></i> Gagal menyimpan data, pastikan nilai lebih dari <strong>0 (NOL)</strong>. </div>';
@@ -173,8 +170,7 @@ elseif ($module=='penarikan_tunai' AND $act=='create'){
 												nama_penyetor,
 												no_identitas,
 												alamat,
-												wilayah,
-												ftKodeKelompok,
+												ftNamaKantorBayar,
 												ftType
 									)
 										VALUES('$_POST[tgl_transaksi]',
@@ -182,15 +178,15 @@ elseif ($module=='penarikan_tunai' AND $act=='create'){
 											   '$_POST[jenis_id]',
 											   '$_POST[jumlah]',
 											   '$_POST[ket]',
-											   'penarikan',
-											   'K',
+											   'Setoran',
+											   'D',
 											   '$_POST[kas_id]',
 											   '$_SESSION[namalengkap]',
 											   '$_POST[nama_penyetor]',
 											   '$_POST[no_identitas]',
 											   '$_POST[alamat]',
-											   '$_POST[wilayah]',
-											   '$_POST[ftKodeKelompok]','UMUM'
+											   '$_POST[perusahaan]',
+											   'UMUM'
 								  )");
 		$res=true;	
 		$msg='<div class="text-green"><i class="fa fa-check"></i> Data berhasil disimpan </div>';
@@ -199,14 +195,14 @@ elseif ($module=='penarikan_tunai' AND $act=='create'){
 
 }
 
-// Update penarikan Tunai
-elseif ($module=='penarikan_tunai' AND $act=='update'){
+// Update Setoran Tunai
+elseif ($module=='setoran_tunai_umum' AND $act=='update'){
 	$jum=str_replace(',', '', $_POST[jumlah]);
 	if(str_replace(',', '', $_POST[jumlah]) <= 0) {
 			$res=false;
 			$msg='<div class="text-red"><i class="fa fa-ban"></i> Gagal menyimpan data, pastikan nilai lebih dari <strong>0 (NOL)</strong>. </div>';
 	}else{
-	 mysql_query("UPDATE tbl_trans_sp SET 
+  	 mysql_query("UPDATE tbl_trans_sp SET 
                                    tgl_transaksi 	= '$_POST[tgl_transaksi]',
                                    jenis_id 		= '$_POST[jenis_id]',
 								   jumlah 		 	= '$jum',
@@ -221,9 +217,9 @@ elseif ($module=='penarikan_tunai' AND $act=='update'){
 		$res=true;	
 		$msg='<div class="text-green"><i class="fa fa-check"></i> Data berhasil disimpan </div>';
 	}						  
-	echo json_encode(array('ok' => $res, 'msg' => $msg));
+  echo json_encode(array('ok' => $res, 'msg' => $msg));
 	
-}elseif ($module=='penarikan_tunai' AND $act=='cetak'){
+}elseif ($module=='setoran_tunai_umum' AND $act=='cetak'){
 	    include "../../pdf/pdf.php";
 		$tgl_dari =  date("Y-m-d", strtotime($_REQUEST['tgl_dari'])); 
 		$tgl_sampai = date("Y-m-d", strtotime($_REQUEST['tgl_sampai'])); 
@@ -232,6 +228,7 @@ elseif ($module=='penarikan_tunai' AND $act=='update'){
 		}else{
 			$header="<span>All Periode</span>";
 		}
+		//var_dump($tgl_dari);exit;
 		$pdf = new Pdf('L', 'mm', 'A4', true, 'UTF-8', false);
 		$pdf->set_nsi_header(TRUE);
 		$pdf->AddPage('L');
@@ -245,7 +242,7 @@ elseif ($module=='penarikan_tunai' AND $act=='update'){
 			.header_kolom {background-color: #cccccc; text-align: center; font-weight: bold;}
 			.txt_content {font-size: 10pt; font-style: arial;}
 		</style>
-			'.$pdf->nsi_box($text = '<span class="txt_judul">Laporan Data Penarikan Kas<br> </span>
+			'.$pdf->nsi_box($text = '<span class="txt_judul">Laporan Data Pemasukan Kas<br> </span>
 			'.$header
 			, $width = '100%', $spacing = '0', $padding = '1', $border = '0', $align = 'center').'
 
@@ -266,7 +263,7 @@ elseif ($module=='penarikan_tunai' AND $act=='update'){
 			   left join jns_simpan b on a.jenis_id=b.id
 			   left join nama_kas_tbl c on a.kas_id=c.id 
 			   left join tlnasabah d on a.anggota_id=d.fnId
-			   WHERE a.ftType='UMUM' and a.dk='K'";
+			   WHERE a.ftType='UMUM' and a.dk='D'";
 		if($tgl_dari != '1970-01-01'){
 			$sql .=" AND DATE(a.tgl_transaksi) >= '".$tgl_dari."' ";
 			$sql .=" AND DATE(a.tgl_transaksi) <= '".$tgl_sampai."' ";
@@ -292,14 +289,14 @@ elseif ($module=='penarikan_tunai' AND $act=='update'){
 		}
 		$html .= '
 			<tr>
-				<td colspan="6" class="h_tengah"><strong> Jumlah Total </strong></td>
-				<td class="h_kanan"> <strong>'.number_format($jml_tot).'</strong></td>
+				<td colspan="5" class="h_tengah"><strong> Jumlah Total </strong></td>
+				<td class="h_kanan"> <strong>'.number_format($jml_tot).'</strong></td><td></td>
 
 			</tr>
 		</table>';
 		$pdf->nsi_html($html);
-		$pdf->Output('trans_sk'.date('Ymd_His') . '.pdf', 'I');
-}elseif ($module=='penarikan_tunai' AND $act=='cetak_penarikan'){
+		$pdf->Output('trans_sp'.date('Ymd_His') . '.pdf', 'I');
+}elseif ($module=='setoran_tunai_umum' AND $act=='cetak_simpanan'){
 	    include "../../pdf/struk.php";
 		include "../../config/Terbilang.php";
 		$id_simpan =$_GET["id_simpan"];
@@ -320,15 +317,15 @@ elseif ($module=='penarikan_tunai' AND $act=='update'){
 		</style>';
 		$company_info= mysql_query("select * from tscompany_info where aktif='Y'");
 		$out=mysql_fetch_array($company_info);
-		$html .= ''.$pdf->nsi_box($text =' <table width="100%" >
+		$html .= ''.$pdf->nsi_box($text =' <table width="100%">
 			<tr>
 				<td colspan="2" class="h_kanan"><strong>'.$out['ftCompany_Name'].'</strong></td>
 			</tr>
 			<tr>
-				<td width="25%"><strong>BUKTI PENARIKAN TUNAI</strong>
+				<td width="20%"><strong>BUKTI SETORAN TUNAI</strong>
 					<hr width="100%">
 				</td>
-				<td class="h_kanan" width="75%">'.$out['ftCompany_Address'].' - '.$out['ftCity'].'</td>
+				<td class="h_kanan" width="80%">'.$out['ftCompany_Address'].' - '.$out['ftCity'].'</td>
 			</tr>
 		</table>', $width = '100%', $spacing = '0', $padding = '1', $border = '0', $align = 'left').'';
 
@@ -344,76 +341,75 @@ elseif ($module=='penarikan_tunai' AND $act=='update'){
 			$txt_tanggal = date("d-M-Y", strtotime($row[tgl_transaksi]));
 			$txt_tanggal2 =tgl_indo_true($txt_tanggal);
 			$txt_tanggal .= ' / ' . substr($tgl_bayar[1], 0, 5);
-			$html .='<table width="100%" >
-		<tr>
-			<td width="20%"> Tanggal Transaksi </td>
-			<td width="2%">:</td>
-			<td width="35%" class="h_kiri">'.$txt_tanggal.'</td>
+			$html .= '
+			<table width="100%" >
+			<tr>
+				<td width="20%"> Tanggal Transaksi </td>
+				<td width="2%">:</td>
+				<td width="35%" class="h_kiri">'.$txt_tanggal.'</td>
 
-			<td> Tanggal Cetak </td>
-			<td width="2%">:</td>
-			<td width="25%" class="h_kiri">'.date('d-M-Y').' / '.date('H:i').'</td>
-		</tr>
-		<tr>
-			<td> Nomor Transaksi </td>
-			<td>:</td>
-			<td>'.'TRD'.sprintf('%05d', $row[id]).'</td>
+				<td> Tanggal Cetak </td>
+				<td width="2%">:</td>
+				<td width="25%" class="h_kiri">'.date('d-M-Y').' / '.date('H:i').'</td>
+			</tr>
+			<tr>
+				<td> Nomor Transaksi </td>
+				<td>:</td>
+				<td>'.'TRD'.sprintf('%05d', $row[id]).'</td>
 
-			<td> User Akun </td>
-			<td width="2%">:</td>
-			<td class="h_kiri">'.$row[user_name].'</td>
-		</tr>
-		<tr>
-			<td> Nama Anggota </td>
+				<td> User Akun </td>
+				<td width="2%">:</td>
+				<td class="h_kiri">'.$row[user_name].'</td>
+			</tr>
+			<tr>
+				<td> Nama Anggota </td>
 				<td>:</td>
 				<td>'.strtoupper($row[ftNamaNasabah]).'</td>
+			
+				<td> Status </td>
+				<td width="2%">:</td>
+				<td class="h_kiri">SUKSES</td>
+			</tr>
+			<tr>
+				<td> Nama Penyetor </td>
+				<td>:</td>
+				<td>'.$row[nama_penyetor].'</td>
 
-			<td> Status </td>
-			<td width="2%">:</td>
-			<td class="h_kiri">SUKSES</td>
-		</tr>
-		<tr>
-			<td> Nama Kuasa </td>
-			<td>:</td>
-			<td>'.$row[nama_penyetor].'</td>
+				<td></td>
+				<td width="2%"></td>
+				<td class="h_kiri">Paraf, </td>
+			</tr>
+			<tr>
+				<td> Alamat </td>
+				<td>:</td>
+				<td>'.$row[alamat].'</td>
+			</tr>
+			<tr>
+				<td> Jenis Akun </td>
+				<td>:</td>
+				<td>'.$row[jns_simpan].'</td>
+			</tr>
+			<tr>
+				<td> Jumlah Setoran </td>
+				<td>:</td>
+				<td>Rp. '.number_format($row[jumlah]).'</td>
 
-			<td></td>
-			<td width="2%"></td>
-			<td class="h_kiri">Paraf, </td>
-		</tr>
-		<tr>
-			<td> Alamat </td>
-			<td>:</td>
-			<td>'.$row[alamat].'</td>
-		</tr>
-		<tr>
-			<td> Jumlah </td>
-			<td>:</td>
-			<td>Rp. '.number_format($row[jumlah]).'</td>
-		</tr>
-		<tr>
-			<td> Jenis Akun </td>
-			<td>:</td>
-			<td>'.$row[jns_simpan].'</td>
-
-			<td></td>
-			<td width="2%"></td>
-			<td class="h_kiri">____________ </td>
-		</tr>
-		<tr>
-			<td> Terbilang </td> 
-			<td>:</td>
-			<td colspan="3">'.$terb->eja($row[jumlah]).' RUPIAH </td>
-		</tr>';
-	}
-	$html .='</table> 
-	
-	<p class="txt_content"></p>
-	
-	<p class="txt_content">Ref. '.date('Ymd_His').'<br> 
-		Informasi Hubungi Call Center : '.$out['ftTelephone'].'<br>
-		** Tanda terima ini sah jika telah dibubuhi cap dan tanda tangan oleh Admin ** 
-	</p>';
+				<td></td>
+				<td width="2%"></td>
+				<td class="h_kiri">____________ </td>
+			</tr>
+			<tr>
+				<td> Terbilang </td> 
+				<td>:</td>
+				<td colspan="3">'.$terb->eja($row[jumlah]).' RUPIAH </td>
+			</tr>';
+		}
+		$html .= '</table> 
+			<p class="txt_content"></p>
+			<p class="txt_content">Ref. '.date('Ymd_His').'<br> 
+			Informasi Hubungi Call Center : '.$out['ftTelephone'].'<br>
+			** Tanda terima ini sah jika telah dibubuhi cap dan tanda tangan oleh Admin ** 
+		</p>';
 		$pdf->nsi_html($html);
 		$pdf->Output(date('Ymd_His') . '.pdf', 'I');
 }

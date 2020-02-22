@@ -94,7 +94,7 @@ elseif ($module=='setoran_tunai' AND $act=='getdata'){
 	   left join jns_simpan b on a.jenis_id=b.id
 	   left join nama_kas_tbl c on a.kas_id=c.id 
 	   left join tlnasabah d on a.anggota_id=d.fnId
-	   WHERE a.dk='D' ";
+	   WHERE a.ftType='MIKRO' and a.dk='D' ";
   if(is_array($q)) {
 			if($q['kode_transaksi'] != '') {
 				$q['kode_transaksi'] = str_replace('TRD', '', $q['kode_transaksi']);
@@ -171,7 +171,8 @@ elseif ($module=='setoran_tunai' AND $act=='create'){
 												no_identitas,
 												alamat,
 												wilayah,
-												ftKodeKelompok
+												ftKodeKelompok,
+												ftType
 									)
 										VALUES('$_POST[tgl_transaksi]',
 											   '$_POST[anggota_id]',
@@ -186,7 +187,8 @@ elseif ($module=='setoran_tunai' AND $act=='create'){
 											   '$_POST[no_identitas]',
 											   '$_POST[alamat]',
 											   '$_POST[wilayah]',
-											   '$_POST[ftKodeKelompok]'
+											   '$_POST[ftKodeKelompok]',
+											   'MIKRO'
 								  )");
 		$res=true;	
 		$msg='<div class="text-green"><i class="fa fa-check"></i> Data berhasil disimpan </div>';
@@ -263,7 +265,7 @@ elseif ($module=='setoran_tunai' AND $act=='update'){
 			   left join jns_simpan b on a.jenis_id=b.id
 			   left join nama_kas_tbl c on a.kas_id=c.id 
 			   left join tlnasabah d on a.anggota_id=d.fnId
-			   WHERE a.dk='D'";
+			   WHERE a.ftType='MIKRO' and a.dk='D'";
 		if($tgl_dari != '1970-01-01'){
 			$sql .=" AND DATE(a.tgl_transaksi) >= '".$tgl_dari."' ";
 			$sql .=" AND DATE(a.tgl_transaksi) <= '".$tgl_sampai."' ";
@@ -289,8 +291,8 @@ elseif ($module=='setoran_tunai' AND $act=='update'){
 		}
 		$html .= '
 			<tr>
-				<td colspan="6" class="h_tengah"><strong> Jumlah Total </strong></td>
-				<td class="h_kanan"> <strong>'.number_format($jml_tot).'</strong></td>
+				<td colspan="5" class="h_tengah"><strong> Jumlah Total </strong></td>
+				<td class="h_kanan"> <strong>'.number_format($jml_tot).'</strong></td><td></td>
 
 			</tr>
 		</table>';
@@ -333,7 +335,7 @@ elseif ($module=='setoran_tunai' AND $act=='update'){
 			   left join jns_simpan b on a.jenis_id=b.id
 			   left join nama_kas_tbl c on a.kas_id=c.id 
 			   left join tlnasabah d on a.anggota_id=d.fnId
-			   WHERE a.id='$id_simpan'";
+			   WHERE a.ftType='MIKRO' and a.id='$id_simpan'";
 		$result= mysql_query($sql);
 		while($row=mysql_fetch_array($result)){
 			

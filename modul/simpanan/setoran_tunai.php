@@ -65,7 +65,7 @@ switch($_GET[act]){
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-       TRANSAKSI SETORAN TUNAI 
+       TRANSAKSI SETORAN TUNAI MIKRO
         
       </h1>
       <ol class="breadcrumb">
