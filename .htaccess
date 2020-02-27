@@ -361,6 +361,10 @@ RewriteRule ^getdata-penarikan-tunai-umum\.html$ modul/simpanan_umum/aksi_penari
 RewriteRule ^setoran-tunai-umum\.html$ media.php?module=setoran_tunai_umum&id=$1 [L]
 RewriteRule ^getdata-setoran-tunai-umum\.html$ modul/simpanan_umum/aksi_setoran_tunai_umum.php?module=setoran_tunai_umum&act=getdata&username=$1 [L]
 
+RewriteRule ^setoran-tunai-rrp-mikro\.html$ media.php?module=setoran_tunai_rrp_mikro&id=$1 [L]
+RewriteRule ^getdata-setoran-tunai-rrp-mikro\.html$ modul/rrp_mikro/aksi_setoran_tunai_rrp_mikro.php?module=setoran_tunai_rrp_mikro&act=getdata&username=$1 [L]
+RewriteRule ^getdata-jenis\.html$ modul/rrp_mikro/aksi_setoran_tunai_rrp_mikro.php?module=setoran_tunai_rrp_mikro&act=getDataJenis&username=$1 [L]
+RewriteRule ^getdata-anggota\.html$ modul/rrp_mikro/aksi_setoran_tunai_rrp_mikro.php?module=setoran_tunai_rrp_mikro&act=getDataAnggota&username=$1 [L]
 
 Options All -Indexes
 </IfModule>

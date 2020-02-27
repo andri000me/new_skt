@@ -26,12 +26,12 @@ $act=$_GET[act];
 $id=$_GET[id];
 
 // Hapus tipe
-if ($module=='setoran_tunai' AND $act=='delete'){
-  mysql_query("DELETE FROM tbl_trans_sp WHERE id='$id'");
+if ($module=='setoran_tunai_rrp_mikro' AND $act=='delete'){
+  mysql_query("DELETE FROM tbl_trans_rrp WHERE id='$id'");
   echo json_encode(array('ok' => true, 'msg' => '<div class="text-green"><i class="fa fa-check"></i> Data berhasil disimpan </div>'));
 }
 // Get Data Jenis Simpanan
-elseif ($module=='setoran_tunai' AND $act=='getDataJenis'){
+elseif ($module=='setoran_tunai_rrp_mikro' AND $act=='getDataJenis'){
   $jenis_id=$_POST['jenis_id'];	
   $sql="select * FROM jns_simpan WHERE id='".$jenis_id."' and tampil='Y'";
   $result=mysql_fetch_array(mysql_query($sql));
@@ -39,7 +39,7 @@ elseif ($module=='setoran_tunai' AND $act=='getDataJenis'){
   echo $jum;
 }
 // Get Data Anggota
-elseif ($module=='setoran_tunai' AND $act=='getDataAnggota'){
+elseif ($module=='setoran_tunai_rrp_mikro' AND $act=='getDataAnggota'){
   $q=$_POST['q'];
   $kel=$_GET['kel'];  
  // var_dump($kel);exit;
@@ -59,7 +59,7 @@ elseif ($module=='setoran_tunai' AND $act=='getDataAnggota'){
   echo json_encode($result);
 }
 
-elseif ($module=='setoran_tunai' AND $act=='getDataAnggota_id'){
+elseif ($module=='setoran_tunai_rrp_mikro' AND $act=='getDataAnggota_id'){
   $q=$_POST['q'];
   $anggota=$_GET['anggota'];  
  // var_dump($anggota);exit;
@@ -79,7 +79,7 @@ elseif ($module=='setoran_tunai' AND $act=='getDataAnggota_id'){
   echo json_encode($result);
 }
 // Get data Setoran Tunai
-elseif ($module=='setoran_tunai' AND $act=='getdata'){
+elseif ($module=='setoran_tunai_rrp_mikro' AND $act=='getdata'){
  $offset = isset($_POST['page']) ? intval($_POST['page']) : 1;
  $limit  = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
  $sort  = isset($_POST['sort']) ? $_POST['sort'] : 'tgl_transaksi';
@@ -92,15 +92,16 @@ elseif ($module=='setoran_tunai' AND $act=='getdata'){
  $tgl_sampai2   =   date("Y-m-d", strtotime($tgl_sampai));
  $q = array('kode_transaksi' => $kode_transaksi,'cari_simpanan' => $cari_simpanan,'tgl_dari' => $tgl_dari2,'tgl_sampai' => $tgl_sampai2);
  $offset = ($offset-1)*$limit;
- $sql="SELECT a.*,b.jns_simpan,c.nama,d.ftNamaNasabah,d.ftJabatan, d.ftNoRekening FROM tbl_trans_sp a 
+ $sql="SELECT a.*,b.jns_simpan,c.nama,d.ftNamaNasabah,d.ftJabatan 
+ 		FROM tbl_trans_rrp a 
 	   left join jns_simpan b on a.jenis_id=b.id
 	   left join nama_kas_tbl c on a.kas_id=c.id 
 	   left join tlnasabah d on a.anggota_id=d.fnId
-	   WHERE a.ftType='MIKRO' and a.dk='D' ";
+	   WHERE a.dk='D' ";
   if(is_array($q)) {
 			if($q['kode_transaksi'] != '') {
-				$q['kode_transaksi'] = str_replace('TRD', '', $q['kode_transaksi']);
-				$q['kode_transaksi'] = str_replace('AG', '', $q['kode_transaksi']);
+				$q['kode_transaksi'] = str_replace('RRP', '', $q['kode_transaksi']);
+				$q['kode_transaksi'] = str_replace('RRP', '', $q['kode_transaksi']);
 				$q['kode_transaksi'] = $q['kode_transaksi'] * 1;
 				$sql .=" AND (a.id LIKE '".$q['kode_transaksi']."' OR anggota_id LIKE '".$q['kode_transaksi']."') ";
 			} else {
@@ -125,12 +126,11 @@ elseif ($module=='setoran_tunai' AND $act=='getdata'){
 		$txt_tanggal = tgl_indo_true($tgl_bayar[0]);
 		$txt_tanggal .= ' - ' . substr($tgl_bayar[1], 0, 5);	  
 		$rows[$i]['id'] = $r[id];
-		$rows[$i]['id_txt'] ='TRK' . sprintf('%05d', $r[id]) . '';
+		$rows[$i]['id_txt'] ='RRP' . sprintf('%05d', $r[id]) . '';
 		$rows[$i]['tgl_transaksi'] = $r[tgl_transaksi];
 		$rows[$i]['tgl_transaksi_txt'] = $txt_tanggal;
 		$rows[$i]['anggota_id'] = $r[anggota_id];
 		$rows[$i]['anggota_id_txt'] = $r[ftNamaNasabah];
-		$rows[$i]['norek'] = $r[ftNoRekening];
 		$rows[$i]['nama'] = $r[ftNamaNasabah];
 		$rows[$i]['kas_id'] = $r[kas_id];
 		$rows[$i]['kas_id_txt'] = $r[nama];
@@ -146,7 +146,7 @@ elseif ($module=='setoran_tunai' AND $act=='getdata'){
 		$rows[$i]['wilayah'] = $r[wilayah];
 		$rows[$i]['ftKodeKelompok'] = $r[ftKodeKelompok];
 		$rows[$i]['nota'] = '<p></p><p>
-		<a href="'.'modul/simpanan/aksi_setoran_tunai.php?module=setoran_tunai&act=cetak_simpanan&id_simpan='.$r[id].'" title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
+		<a href="'.'modul/rrp_mikro/aksi_setoran_tunai_rrp_mikro.php?module=setoran_tunai_rrp_mikro&act=cetak_simpanan&id_simpan='.$r[id].'" title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
 		
 		$i++;
 	  }
@@ -156,12 +156,12 @@ elseif ($module=='setoran_tunai' AND $act=='getdata'){
 }
 
 // Input Setoran Tunai
-elseif ($module=='setoran_tunai' AND $act=='create'){
+elseif ($module=='setoran_tunai_rrp_mikro' AND $act=='create'){
 	if(str_replace(',', '', $_POST[jumlah]) <= 0) {
 			$res=false;
 			$msg='<div class="text-red"><i class="fa fa-ban"></i> Gagal menyimpan data, pastikan nilai lebih dari <strong>0 (NOL)</strong>. </div>';
 	}else{
- 	  mysql_query("INSERT INTO tbl_trans_sp(	tgl_transaksi,
+ 	  mysql_query("INSERT INTO tbl_trans_rrp(	tgl_transaksi,
 												anggota_id,
 												jenis_id,
 												jumlah,
@@ -199,13 +199,13 @@ elseif ($module=='setoran_tunai' AND $act=='create'){
 }
 
 // Update Setoran Tunai
-elseif ($module=='setoran_tunai' AND $act=='update'){
+elseif ($module=='setoran_tunai_rrp_mikro' AND $act=='update'){
 	$jum=str_replace(',', '', $_POST[jumlah]);
 	if(str_replace(',', '', $_POST[jumlah]) <= 0) {
 			$res=false;
 			$msg='<div class="text-red"><i class="fa fa-ban"></i> Gagal menyimpan data, pastikan nilai lebih dari <strong>0 (NOL)</strong>. </div>';
 	}else{
-  	 mysql_query("UPDATE tbl_trans_sp SET 
+  	 mysql_query("UPDATE tbl_trans_rrp SET 
                                    tgl_transaksi 	= '$_POST[tgl_transaksi]',
                                    jenis_id 		= '$_POST[jenis_id]',
 								   jumlah 		 	= '$jum',
@@ -222,7 +222,7 @@ elseif ($module=='setoran_tunai' AND $act=='update'){
 	}						  
   echo json_encode(array('ok' => $res, 'msg' => $msg));
 	
-}elseif ($module=='setoran_tunai' AND $act=='cetak'){
+}elseif ($module=='setoran_tunai_rrp_mikro' AND $act=='cetak'){
 	    include "../../pdf/pdf.php";
 		$tgl_dari =  date("Y-m-d", strtotime($_REQUEST['tgl_dari'])); 
 		$tgl_sampai = date("Y-m-d", strtotime($_REQUEST['tgl_sampai'])); 
@@ -262,7 +262,8 @@ elseif ($module=='setoran_tunai' AND $act=='update'){
 
 		$no =1;
 		$jml_tot = 0;
-		$sql="SELECT a.*,b.jns_simpan,b.jumlah,c.nama,d.ftNamaNasabah,d.ftJabatan FROM tbl_trans_sp a 
+		$sql="SELECT a.*,b.jns_simpan,b.jumlah,c.nama,d.ftNamaNasabah,d.ftJabatan 
+			FROM tbl_trans_rrp a 
 			   left join jns_simpan b on a.jenis_id=b.id
 			   left join nama_kas_tbl c on a.kas_id=c.id 
 			   left join tlnasabah d on a.anggota_id=d.fnId
@@ -298,8 +299,8 @@ elseif ($module=='setoran_tunai' AND $act=='update'){
 			</tr>
 		</table>';
 		$pdf->nsi_html($html);
-		$pdf->Output('trans_sp'.date('Ymd_His') . '.pdf', 'I');
-}elseif ($module=='setoran_tunai' AND $act=='cetak_simpanan'){
+		$pdf->Output('trans_rrp'.date('Ymd_His') . '.pdf', 'I');
+}elseif ($module=='setoran_tunai_rrp_mikro' AND $act=='cetak_simpanan'){
 	    include "../../pdf/struk.php";
 		include "../../config/Terbilang.php";
 		$id_simpan =$_GET["id_simpan"];
@@ -332,7 +333,7 @@ elseif ($module=='setoran_tunai' AND $act=='update'){
 			</tr>
 		</table>', $width = '100%', $spacing = '0', $padding = '1', $border = '0', $align = 'left').'';
 
-		$sql="SELECT a.*,b.jns_simpan,c.nama,d.ftNamaNasabah,d.ftJabatan FROM tbl_trans_sp a 
+		$sql="SELECT a.*,b.jns_simpan,c.nama,d.ftNamaNasabah,d.ftJabatan FROM tbl_trans_rrp a 
 			   left join jns_simpan b on a.jenis_id=b.id
 			   left join nama_kas_tbl c on a.kas_id=c.id 
 			   left join tlnasabah d on a.anggota_id=d.fnId

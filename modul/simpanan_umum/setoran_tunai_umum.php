@@ -107,6 +107,7 @@ switch($_GET[act]){
 							<th data-options="field:'id_txt', width:'17', halign:'center', align:'center'">Kode Transaksi</th>
 							<th data-options="field:'tgl_transaksi',halign:'center', align:'center'" hidden="true">Tanggal</th>
 							<th data-options="field:'tgl_transaksi_txt', width:'25', halign:'center', align:'center'">Tanggal Transaksi</th>
+							<th data-options="field:'norek', width:'20',halign:'center', align:'left'">No Rek</th>
 							<th data-options="field:'nama', width:'35',halign:'center', align:'left'">Nama Anggota</th>
 							<th data-options="field:'kas_id', width:'15',halign:'center', align:'left'" hidden="true">Simpan ke Kas</th>
 							<th data-options="field:'kas_id_txt', width:'15',halign:'center', align:'left'">Simpan ke Kas</th>

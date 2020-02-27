@@ -43,13 +43,14 @@ elseif ($module=='setoran_tunai_umum' AND $act=='getDataAnggota'){
   $q=$_POST['q'];
   $kel=$_GET['kel'];  
  // var_dump($kel);exit;
-  $sql="select fnId,ftNamaNasabah,ftAlamat,ftJabatan,ftNamaKelompok FROM tlnasabah WHERE ftNamaNasabah like '%".$q."%' and ftKantorBayar='$kel'";
+  $sql="select fnId,ftNoRekening,ftNamaNasabah,ftAlamat,ftJabatan,ftNamaKelompok FROM tlnasabah WHERE ftNamaNasabah like '%".$q."%' and ftKantorBayar='$kel'";
   $i	= 0;
   $rows   = array(); 
   $result2=mysql_query($sql);
  while($r=mysql_fetch_array($result2)){
 		$rows[$i]['id'] = $r[fnId];
-		$rows[$i]['kode_anggota'] = 'AG'.sprintf('%04d', $r[fnId]) . '<br>' . $r[ftJabatan];
+		//$rows[$i]['kode_anggota'] = 'AG'.sprintf('%04d', $r[fnId]) . '<br>' . $r[ftJabatan];
+		$rows[$i]['kode_anggota'] = $r[ftNoRekening];
 		$rows[$i]['nama'] = $r[ftNamaNasabah];
 		//$rows[$i]['kota'] = $r[ftAlamat];	
 		$i++;
@@ -62,13 +63,14 @@ elseif ($module=='setoran_tunai_umum' AND $act=='getDataAnggota_id'){
   $q=$_POST['q'];
   $anggota=$_GET['anggota'];  
  // var_dump($anggota);exit;
-  $sql="select fnId,ftNamaNasabah,ftAlamat,ftJabatan,ftNamaKelompok FROM tlnasabah WHERE fnId='$anggota'";
+  $sql="select fnId,ftNoRekening,ftNamaNasabah,ftAlamat,ftJabatan,ftNamaKelompok FROM tlnasabah WHERE fnId='$anggota'";
   $i	= 0;
   $rows   = array(); 
   $result2=mysql_query($sql);
  while($r=mysql_fetch_array($result2)){
 		$rows[$i]['id'] = $r[fnId];
-		$rows[$i]['kode_anggota'] = 'AG'.sprintf('%04d', $r[fnId]) . '<br>' . $r[ftJabatan];
+		//$rows[$i]['kode_anggota'] = 'AG'.sprintf('%04d', $r[fnId]) . '<br>' . $r[ftJabatan];
+		$rows[$i]['kode_anggota'] = $r[ftNoRekening];
 		$rows[$i]['nama'] = $r[ftNamaNasabah];
 		//$rows[$i]['kota'] = $r[ftAlamat];	
 		$i++;
@@ -90,7 +92,8 @@ elseif ($module=='setoran_tunai_umum' AND $act=='getdata'){
  $tgl_sampai2   =   date("Y-m-d", strtotime($tgl_sampai));
  $q = array('kode_transaksi' => $kode_transaksi,'cari_simpanan' => $cari_simpanan,'tgl_dari' => $tgl_dari2,'tgl_sampai' => $tgl_sampai2);
  $offset = ($offset-1)*$limit;
- $sql="SELECT a.*,b.jns_simpan,c.nama,d.ftNamaNasabah,d.ftJabatan FROM tbl_trans_sp a 
+ $sql="SELECT a.*,b.jns_simpan,c.nama,d.ftNamaNasabah,d.ftJabatan, d.ftNoRekening 
+ 		FROM tbl_trans_sp a 
 	   left join jns_simpan b on a.jenis_id=b.id
 	   left join nama_kas_tbl c on a.kas_id=c.id 
 	   left join tlnasabah d on a.anggota_id=d.fnId
@@ -128,6 +131,7 @@ elseif ($module=='setoran_tunai_umum' AND $act=='getdata'){
 		$rows[$i]['tgl_transaksi_txt'] = $txt_tanggal;
 		$rows[$i]['anggota_id'] = $r[anggota_id];
 		$rows[$i]['anggota_id_txt'] = $r[ftNamaNasabah];
+		$rows[$i]['norek'] = $r[ftNoRekening];
 		$rows[$i]['nama'] = $r[ftNamaNasabah];
 		$rows[$i]['kas_id'] = $r[kas_id];
 		$rows[$i]['kas_id_txt'] = $r[nama];
@@ -143,7 +147,7 @@ elseif ($module=='setoran_tunai_umum' AND $act=='getdata'){
 		$rows[$i]['perusahaan'] = $r[ftNamaKantorBayar];
 		$rows[$i]['ftKodeKelompok'] = $r[ftKodeKelompok];
 		$rows[$i]['nota'] = '<p></p><p>
-		<a href="'.'modul/simpanan/aksi_setoran_tunai_umum.php?module=setoran_tunai_umum&act=cetak_simpanan&id_simpan='.$r[id].'" title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
+		<a href="'.'modul/simpanan_umum/aksi_setoran_tunai_umum.php?module=setoran_tunai_umum&act=cetak_simpanan&id_simpan='.$r[id].'" title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
 		
 		$i++;
 	  }
@@ -170,7 +174,7 @@ elseif ($module=='setoran_tunai_umum' AND $act=='create'){
 												nama_penyetor,
 												no_identitas,
 												alamat,
-												ftNamaKantorBayar,
+												wilayah,
 												ftType
 									)
 										VALUES('$_POST[tgl_transaksi]',

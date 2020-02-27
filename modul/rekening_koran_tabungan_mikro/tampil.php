@@ -8,13 +8,15 @@ $tampil=mysql_query("SELECT xx.fdTrans_date, xx.ftTrans_No, xx.ftCustomer_Code, 
 					yy.`ftSubCabang`,yy.`ftNamaKelompok`, xx.fcTabMasuk, xx.fcTabKeluar	
 					FROM (	
 						SELECT b.fdTrans_date, a.ftTrans_No, b.ftCustomer_Code, 
-						b.fcSimpanan AS fcTabMasuk, 0 AS fcTabKeluar
+						b.fcSimpanan + b.fcadm AS fcTabMasuk, 0 AS fcTabKeluar
 						FROM txpinjaman_mikro_hdr a
 						LEFT JOIN txpinjaman_mikro_nasabah_hdr b ON a.`ftTrans_No`=b.`ftTrans_No` 
 						AND a.ftKodeKelompok = b.ftKodeKelompok AND a.ftKodeWilayah = b.ftKodeWilayah
 						WHERE a.fnStatus = 1 AND b.fnStatus = 1
-						AND b.ftCustomer_Code='$search' 						
+						AND b.ftCustomer_Code='$search' 	
+
 						UNION ALL						
+						
 						SELECT fdTrans_date, ftTrans_No, ftCustomer_Code, fcTabAngsuran , 0
 						FROM txangsuran_mikro_hdr WHERE fnStatus = 1
 						AND ftCustomer_Code='$search' 
@@ -28,7 +30,7 @@ $tampil=mysql_query("SELECT xx.fdTrans_date, xx.ftTrans_No, xx.ftCustomer_Code, 
 
 						UNION ALL
 	
-						SELECT tgl_transaksi, 'Setor tunai', b.ftNoRekening, 0, a.jumlah
+						SELECT tgl_transaksi, 'Tarik tunai', b.ftNoRekening, 0, a.jumlah
 						FROM tbl_trans_sp a
 						INNER JOIN tlnasabah b ON b.`fnid`=a.anggota_id
 						WHERE a.dk='K' AND b.ftNoRekening='$search' 
@@ -62,7 +64,7 @@ $tampil2=mysql_query("SELECT xx.fdTrans_date, xx.ftTrans_No, xx.ftCustomer_Code,
 
 						UNION ALL
 	
-						SELECT tgl_transaksi, 'Setor tunai', b.ftNoRekening, 0, a.jumlah
+						SELECT tgl_transaksi, 'Tarik tunai', b.ftNoRekening, 0, a.jumlah
 						FROM tbl_trans_sp a
 						INNER JOIN tlnasabah b ON b.`fnid`=a.anggota_id
 						WHERE a.dk='K' AND b.ftNoRekening='$search' 

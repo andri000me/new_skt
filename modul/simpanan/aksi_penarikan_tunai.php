@@ -93,7 +93,8 @@ elseif ($module=='penarikan_tunai' AND $act=='getdata'){
  $tgl_sampai2   =   date("Y-m-d", strtotime($tgl_sampai));
  $q = array('kode_transaksi' => $kode_transaksi,'cari_simpanan' => $cari_simpanan,'tgl_dari' => $tgl_dari2,'tgl_sampai' => $tgl_sampai2);
  $offset = ($offset-1)*$limit;
- $sql="SELECT a.*,b.jns_simpan,c.nama,d.ftNamaNasabah,d.ftJabatan FROM tbl_trans_sp a 
+ $sql="SELECT a.*,b.jns_simpan,c.nama,d.ftNamaNasabah,d.ftJabatan, d.ftNoRekening 
+ 		FROM tbl_trans_sp a 
 	   left join jns_simpan b on a.jenis_id=b.id
 	   left join nama_kas_tbl c on a.kas_id=c.id 
 	   left join tlnasabah d on a.anggota_id=d.fnId
@@ -131,6 +132,7 @@ elseif ($module=='penarikan_tunai' AND $act=='getdata'){
 		$rows[$i]['tgl_transaksi_txt'] = $txt_tanggal;
 		$rows[$i]['anggota_id'] = $r[anggota_id];
 		$rows[$i]['anggota_id_txt'] = $r[ftNamaNasabah];
+		$rows[$i]['norek'] = $r[ftNoRekening];
 		$rows[$i]['nama'] = $r[ftNamaNasabah];
 		$rows[$i]['kas_id'] = $r[kas_id];
 		$rows[$i]['kas_id_txt'] = $r[nama];

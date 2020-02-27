@@ -73,14 +73,14 @@ LEFT JOIN (
                         AND fdTrans_date < '$startDate' 
                         
 
-                        UNION ALL
+                        -- UNION ALL
 
-                        SELECT b.ftCustomer_Code , -a.fcPokokAngsuran  
-                        FROM txtagihan a
-                        INNER JOIN txpinjaman_mikro_nasabah_hdr b ON a.fttrans_No = b.ftTrans_No
-                        AND a.ftCustomer_Code = b.ftCustomer_Code
-                        WHERE a.fnstatus = 1 
-                        AND a.fdTrans_date < '$startDate'
+                        -- SELECT b.ftCustomer_Code , -a.fcPokokAngsuran  
+                        -- FROM txtagihan a
+                        -- INNER JOIN txpinjaman_mikro_nasabah_hdr b ON a.fttrans_No = b.ftTrans_No
+                        -- AND a.ftCustomer_Code = b.ftCustomer_Code
+                        -- WHERE a.fnstatus = 1 
+                        -- AND a.fdTrans_date < '$startDate'
                         
 
                 ) xx
@@ -105,12 +105,12 @@ LEFT JOIN (
                         AND fdTrans_date = '$startDate' 
                         
 
-                        UNION ALL
+                        -- UNION ALL
 
-                        SELECT b.ftCustomer_Code , 0 AS fcPinjaman, 0 AS fcRetur,a.fcPokokAngsuran  AS fcTagihan, 0 AS fcPelunasan ,0 AS fcSetorSendiri
-                        FROM txtagihan a
-                        INNER JOIN txpinjaman_mikro_nasabah_hdr b ON a.fttrans_No = b.ftTrans_No AND a.ftCustomer_Code = b.ftCustomer_Code              WHERE a.fnstatus = 1 
-                        AND a.fdTrans_date = '$startDate' 
+                        -- SELECT b.ftCustomer_Code , 0 AS fcPinjaman, 0 AS fcRetur,a.fcPokokAngsuran  AS fcTagihan, 0 AS fcPelunasan ,0 AS fcSetorSendiri
+                        -- FROM txtagihan a
+                        -- INNER JOIN txpinjaman_mikro_nasabah_hdr b ON a.fttrans_No = b.ftTrans_No AND a.ftCustomer_Code = b.ftCustomer_Code              WHERE a.fnstatus = 1 
+                        -- AND a.fdTrans_date = '$startDate' 
                         
 
                 ) xx
