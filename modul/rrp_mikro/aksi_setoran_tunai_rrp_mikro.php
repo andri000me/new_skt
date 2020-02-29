@@ -92,7 +92,7 @@ elseif ($module=='setoran_tunai_rrp_mikro' AND $act=='getdata'){
  $tgl_sampai2   =   date("Y-m-d", strtotime($tgl_sampai));
  $q = array('kode_transaksi' => $kode_transaksi,'cari_simpanan' => $cari_simpanan,'tgl_dari' => $tgl_dari2,'tgl_sampai' => $tgl_sampai2);
  $offset = ($offset-1)*$limit;
- $sql="SELECT a.*,b.jns_simpan,c.nama,d.ftNamaNasabah,d.ftJabatan 
+ $sql="SELECT a.*,b.jns_simpan,c.nama,d.ftNamaNasabah,d.ftJabatan,d.ftNoRekening 
  		FROM tbl_trans_rrp a 
 	   left join jns_simpan b on a.jenis_id=b.id
 	   left join nama_kas_tbl c on a.kas_id=c.id 
@@ -126,7 +126,7 @@ elseif ($module=='setoran_tunai_rrp_mikro' AND $act=='getdata'){
 		$txt_tanggal = tgl_indo_true($tgl_bayar[0]);
 		$txt_tanggal .= ' - ' . substr($tgl_bayar[1], 0, 5);	  
 		$rows[$i]['id'] = $r[id];
-		$rows[$i]['id_txt'] ='RRP' . sprintf('%05d', $r[id]) . '';
+		$rows[$i]['id_txt'] ='RRPM' . sprintf('%05d', $r[id]) . '';
 		$rows[$i]['tgl_transaksi'] = $r[tgl_transaksi];
 		$rows[$i]['tgl_transaksi_txt'] = $txt_tanggal;
 		$rows[$i]['anggota_id'] = $r[anggota_id];
@@ -144,7 +144,8 @@ elseif ($module=='setoran_tunai_rrp_mikro' AND $act=='getdata'){
 		$rows[$i]['no_identitas'] = $r[no_identitas];
 		$rows[$i]['alamat'] = $r[alamat];
 		$rows[$i]['wilayah'] = $r[wilayah];
-		$rows[$i]['ftKodeKelompok'] = $r[ftKodeKelompok];
+		$rows[$i]['kelompok'] = $r[ftKodeKelompok];
+		$rows[$i]['rek'] = $r[ftNoRekening];
 		$rows[$i]['nota'] = '<p></p><p>
 		<a href="'.'modul/rrp_mikro/aksi_setoran_tunai_rrp_mikro.php?module=setoran_tunai_rrp_mikro&act=cetak_simpanan&id_simpan='.$r[id].'" title="Cetak Bukti Transaksi" target="_blank"> <i class="glyphicon glyphicon-print"></i> Nota </a></p>';
 		

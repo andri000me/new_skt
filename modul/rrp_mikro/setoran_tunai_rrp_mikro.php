@@ -203,11 +203,11 @@ switch($_GET[act]){
 							}
 						?>		
 
-						<tr style="height:35px">
+						<tr style="height:35px;display:;" >
 							<td>No Transaksi</td>
 							<td>:</td>
 							<td>
-								<input id="notrans" name="notrans" style="width:190px; height:20px" >
+								<input type="text" id="notrans" name="notrans" style="width:190px; height:20px" >
 							</td>	
 						</tr>
 
