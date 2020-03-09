@@ -22,7 +22,7 @@ function cek_login(){
 
 	function auto_kill_session()
 	{
-		$inactive = 10000;
+		$inactive = 100000;
 
 		$session_life = time() - $_SESSION['timeout']; 
 		if($session_life > $inactive) 

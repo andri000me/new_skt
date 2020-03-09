@@ -202,9 +202,10 @@ switch($_GET[act]){
                 <thead>
                 <tr>
 				  <th>No</th>
-                  <th>No Transaksi</th>
+          <th>No Transaksi</th>
 				  <th>Tgl Pinjam</th>
 				  <th>No Rekening</th>
+          <th>Kantor Bayar</th>
 				  <th>Nama</th>
 				  <th>Plafond Pinjaman</th>
 				   <th>Status</th>
@@ -236,6 +237,7 @@ switch($_GET[act]){
           <td>$r[ftTrans_No]</td>
           <td>$r[fdTrans_date]</td> 
 				  <td>$r[ftCustomer_Code]</td> 
+          <td>$r[ftKantorBayar]</td> 
 				  <td>$r[ftNamaNasabah]</td> 
 				  <td>$fcPlafond</td>"; 
                   //Status

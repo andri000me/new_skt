@@ -366,5 +366,8 @@ RewriteRule ^getdata-setoran-tunai-rrp-mikro\.html$ modul/rrp_mikro/aksi_setoran
 RewriteRule ^getdata-jenis\.html$ modul/rrp_mikro/aksi_setoran_tunai_rrp_mikro.php?module=setoran_tunai_rrp_mikro&act=getDataJenis&username=$1 [L]
 RewriteRule ^getdata-anggota\.html$ modul/rrp_mikro/aksi_setoran_tunai_rrp_mikro.php?module=setoran_tunai_rrp_mikro&act=getDataAnggota&username=$1 [L]
 
+RewriteRule ^rekening-koran-pinjaman-umum\.html$ media.php?module=rekening_koran_pinjaman_umum&id=$1 [L]
+RewriteRule ^rekening-koran-pinjaman-mikro\.html$ media.php?module=rekening_koran_pinjaman_mikro&id=$1 [L]
+
 Options All -Indexes
 </IfModule>

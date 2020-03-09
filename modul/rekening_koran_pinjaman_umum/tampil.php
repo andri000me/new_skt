@@ -5,81 +5,42 @@ include "../../config/fungsi_rupiah.php";
 $search = $_GET['search'];
 //var_dump($search);exit;
 $tampil=mysql_query("SELECT xx.fdTrans_date, xx.ftTrans_No, xx.ftCustomer_Code, yy.`ftNamaNasabah`, 	
-					yy.`ftSubCabang`,yy.`ftNamaKelompok`, xx.fcTabMasuk, xx.fcTabKeluar	
+					yy.`ftKantorBayar`, xx.fcTabMasuk, xx.fcTabKeluar	
 					FROM (	
-						SELECT b.fdTrans_date, a.ftTrans_No, b.ftCustomer_Code, 
-						b.fcSimpanan + b.fcadm AS fcTabMasuk, 0 AS fcTabKeluar
-						FROM txpinjaman_mikro_hdr a
-						LEFT JOIN txpinjaman_mikro_nasabah_hdr b ON a.`ftTrans_No`=b.`ftTrans_No` 
-						AND a.ftKodeKelompok = b.ftKodeKelompok AND a.ftKodeWilayah = b.ftKodeWilayah
-						WHERE a.fnStatus = 1 AND b.fnStatus = 1
-						AND b.ftCustomer_Code='$search' 	
-
+						SELECT fdTrans_date, ftTrans_No, ftCustomer_Code, 
+						fcPlafond AS fcTabMasuk, 0 AS fcTabKeluar
+						FROM txpinjaman_umum_hdr WHERE fnStatus = 1
+						AND ftCustomer_Code='$search' 						
 						UNION ALL						
-						
-						SELECT fdTrans_date, ftTrans_No, ftCustomer_Code, fcTabAngsuran , 0
-						FROM txangsuran_mikro_hdr WHERE fnStatus = 1
+						SELECT fdTrans_date, ftTrans_No, ftCustomer_Code, 0,fcPokokAngsuran 
+						FROM txangsuran_umum_hdr WHERE fnStatus = 1
 						AND ftCustomer_Code='$search' 
-
-						UNION ALL
-	
-						SELECT tgl_transaksi, 'Setor tunai', b.ftNoRekening, a.jumlah,0
-						FROM tbl_trans_sp a
-						INNER JOIN tlnasabah b ON b.`fnid`=a.anggota_id
-						WHERE a.dk='D' AND b.ftNoRekening='$search' 
-
-						UNION ALL
-	
-						SELECT tgl_transaksi, 'Tarik tunai', b.ftNoRekening, 0, a.jumlah
-						FROM tbl_trans_sp a
-						INNER JOIN tlnasabah b ON b.`fnid`=a.anggota_id
-						WHERE a.dk='K' AND b.ftNoRekening='$search' 
-
 					) xx	
 					INNER JOIN tlnasabah yy ON xx.ftCustomer_Code = yy.`ftNoRekening`	
 					WHERE xx.ftCustomer_Code='$search' 	
 					ORDER BY xx.fdTrans_date");
-
 $tampil2=mysql_query("SELECT xx.fdTrans_date, xx.ftTrans_No, xx.ftCustomer_Code, yy.`ftNamaNasabah`, 	
-					yy.`ftSubCabang`,yy.`ftNamaKelompok`, xx.fcTabMasuk, xx.fcTabKeluar	
-					FROM (	
-						SELECT b.fdTrans_date, a.ftTrans_No, b.ftCustomer_Code, 
-						b.fcSimpanan + b.fcadm AS fcTabMasuk, 0 AS fcTabKeluar
-						FROM txpinjaman_mikro_hdr a
-						LEFT JOIN txpinjaman_mikro_nasabah_hdr b ON a.`ftTrans_No`=b.`ftTrans_No` 
-						AND a.ftKodeKelompok = b.ftKodeKelompok AND a.ftKodeWilayah = b.ftKodeWilayah
-						WHERE a.fnStatus = 1 AND b.fnStatus = 1
-						AND b.ftCustomer_Code='$search' 						
-						UNION ALL						
-						SELECT fdTrans_date, ftTrans_No, ftCustomer_Code, fcTabAngsuran , 0
-						FROM txangsuran_mikro_hdr WHERE fnStatus = 1
-						AND ftCustomer_Code='$search' 
-
-						UNION ALL
-	
-						SELECT tgl_transaksi, 'Setor tunai', b.ftNoRekening, a.jumlah,0
-						FROM tbl_trans_sp a
-						INNER JOIN tlnasabah b ON b.`fnid`=a.anggota_id
-						WHERE a.dk='D' AND b.ftNoRekening='$search' 
-
-						UNION ALL
-	
-						SELECT tgl_transaksi, 'Tarik tunai', b.ftNoRekening, 0, a.jumlah
-						FROM tbl_trans_sp a
-						INNER JOIN tlnasabah b ON b.`fnid`=a.anggota_id
-						WHERE a.dk='K' AND b.ftNoRekening='$search' 
-
-					) xx	
-					INNER JOIN tlnasabah yy ON xx.ftCustomer_Code = yy.`ftNoRekening`	
-					WHERE xx.ftCustomer_Code='$search' 	
-					ORDER BY xx.fdTrans_date");
+						yy.`ftKantorBayar`, xx.fcTabMasuk, xx.fcTabKeluar	
+						FROM (	
+							SELECT fdTrans_date, ftTrans_No, ftCustomer_Code, 
+							fcPlafond AS fcTabMasuk, 0 AS fcTabKeluar
+							FROM txpinjaman_umum_hdr WHERE fnStatus = 1
+							AND ftCustomer_Code='$search' 							
+							UNION ALL							
+							SELECT fdTrans_date, ftTrans_No, ftCustomer_Code, 0,fcPokokAngsuran 
+							FROM txangsuran_umum_hdr WHERE fnStatus = 1
+							AND ftCustomer_Code='$search' 
+						) xx	
+						INNER JOIN tlnasabah yy ON xx.ftCustomer_Code = yy.`ftNoRekening`	
+						WHERE xx.ftCustomer_Code='$search' 	
+						ORDER BY xx.fdTrans_date");
 
 	
 ?>
  <style type="text/css">
 
  </style>
-<center ><b>REKENING KORAN TABUNGAN MIKRO </b></center>
+<center ><b>REKENING KORAN PINJAMAN UMUM </b></center>
 <table  id="table" class="table table-bordered table-striped" border=1 width=30%>
 	<thead>
 	<?php 
@@ -87,8 +48,7 @@ $tampil2=mysql_query("SELECT xx.fdTrans_date, xx.ftTrans_No, xx.ftCustomer_Code,
 	echo"
 	<tr ><th width ='40'><b>NAMA</b></th><th width ='10'>:</th><th id='namaNasabah'>$w[ftNamaNasabah]</th></tr>       
     <tr ><th><b>NO REKENING</b></th><th>:</th><th>$w[ftCustomer_Code]</th></tr> 
-    <tr ><th><b>WILAYAH</b></th><th>:</th><th>$w[ftSubCabang]</th></tr> 
-    <tr ><th><b>KELOMPOK</b></th><th>:</th><th>$w[ftNamaKelompok]</th></tr> 
+    <tr ><th><b>KANTOR BAYAR</b></th><th>:</th><th>$w[ftKantorBayar]</th></tr> 
     ";
 
     ?>   

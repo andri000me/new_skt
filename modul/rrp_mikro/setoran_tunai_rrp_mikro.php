@@ -131,7 +131,7 @@ switch($_GET[act]){
 			<div id="tb" style="height: 35px;">
 				<div style="vertical-align: middle; display: inline; padding-top: 15px;">
 					<button class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="create()">Tambah </button>
-					<button class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="update()">Edit</button>
+					<!-- <button class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="update()">Edit</button> -->
 					<button class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="hapus()">Hapus</button>
 				</div>
 				<div class="pull-right" style="vertical-align: middle;">
@@ -203,13 +203,13 @@ switch($_GET[act]){
 							}
 						?>		
 
-						<tr style="height:35px;display:;" >
+						<!-- <tr style="height:35px;display:;" >
 							<td>No Transaksi</td>
 							<td>:</td>
 							<td>
 								<input type="text" id="notrans" name="notrans" style="width:190px; height:20px" >
 							</td>	
-						</tr>
+						</tr> -->
 
 						<!-- <tr style="height:40px">
 							<td><label for="type">Identitas Penyetor</label></td>
@@ -515,8 +515,8 @@ var url;
 		if(row){
 			jQuery('#dialog-form').dialog('open').dialog('setTitle','Edit Data Setoran');
 			jQuery('#form').form('load',row);
-			$('#temp_wilayah').css("display","none");
-			$('#temp_kelompok').css("display","none")
+			$('#temp_wilayah').css("display","");
+			$('#temp_kelompok').css("display","")
 			$('#temp_anggota').css("display","none")	
 			$('#temp_anggota2').css("display","")	
 			$('#anggota_id_txt').attr('disabled', true);
