@@ -157,7 +157,7 @@ echo"
     $j=$r['jumlah'];
    echo"<tr class='table-primary'>";
    if($jum <= 1) {
-     echo"<td rowspan='$j' style='width: 5%; vertical-align: middle; text-align: center;'><div align='center' >$no</div></td>";
+     echo"<td rowspan='$j' style='width: 5%; vertical-align: middle; text-align: center;'><div align='center' ><b>$no</b></div></td>";
         $jum = $r['jumlah'];       
         $no++;      
    }else{
@@ -183,7 +183,7 @@ echo"
             <tfoot>
               <tr class='table-primary'>
                   <td rowspan='3' style='width: 5%; vertical-align: middle; text-align: center;'>
-                      <div align='center' >$no</div></td>
+                      <div align='center' ><b>$no</b></div></td>
                   <td rowspan='3' ><div align='center' ></div></td>
                   <td ><div align='left' ><b>JUMLAH</b></div></td>
                   <td ><div align='center' ><b>$conv_fcDebet</b></div></td>
