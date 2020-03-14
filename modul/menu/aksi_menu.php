@@ -33,7 +33,7 @@ if ($module=='menu' AND $act=='hapus'){
 
 // Input menu
 elseif ($module=='menu' AND $act=='input'){
-  mysql_query("INSERT INTO submenu(	nama_sub,
+  $query="INSERT INTO submenu(	nama_sub,
               	  									class_sub,
               										  link_sub,
                                     id_main,
@@ -48,7 +48,8 @@ elseif ($module=='menu' AND $act=='input'){
                                    '$_POST[id_submain]',
                                    '$_POST[module_name]',
                                    '$_POST[urutan]'
-								  )");
+                  )";            
+  mysql_query($query);             
   header('location:menu.html'); 
 
 }
