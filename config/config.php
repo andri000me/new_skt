@@ -19,16 +19,6 @@ $UserPass       = $EnDecryptText->Decrypt_Text($dbpassword);
 $con=mysql_connect($dbhost,$UserId,$UserPass);
 $db=mysql_select_db($dbname);*/
 
-
-/*$server =  "simtels.co.id";
-$username = "simtelsc";
-$password = "simbika.1234567890";
-$database = "simtelsc_mms";
-
-// Koneksi dan memilih database di server
-mysql_connect($server,$username,$password) or die("Koneksi gagal");
-mysql_select_db($database) or die("Database tidak bisa dibuka");*/
-
 $dbname="db_skt";
 $dbhost="localhost";
 $dbroot="root";
